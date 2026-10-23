@@ -1,0 +1,208 @@
+/* Kantor AI Design System & Styling */
+:root {
+  --color-bg: #0f1830;
+  --color-panel: #1b2742;
+  --color-panel-header: #243350;
+  --color-panel-inner: #16213a;
+  --color-border: #0b1220;
+  --color-primary: #fbbf24;
+  --color-primary-dark: #b45309;
+  --color-primary-light: #fde68a;
+  --color-text: #ffffff;
+  --color-text-muted: #9fb0cf;
+  --color-text-dim: #7487a8;
+  --color-success: #34d399;
+  --font-title: 'Lilita One', cursive, sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --shadow-base: 0 4px 0 rgba(0, 0, 0, 0.28);
+  --shadow-btn: 0 4px 0 #b45309;
+  --shadow-drawer: 0 8px 0 rgba(0, 0, 0, 0.28), 0 24px 40px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+#canvas-container:active {
+  cursor: grabbing;
+}
+
+/* UI Overlay container */
+#ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#ui-overlay > * {
+  pointer-events: auto;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(11, 18, 32, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #33466b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a6396;
+}
+
+/* Cartoon Buttons */
+.cartoon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 3px solid var(--color-border);
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: var(--font-title);
+  letter-spacing: 0.02em;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  user-select: none;
+}
+
+.cartoon-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.28) !important;
+}
+
+.btn-yellow {
+  background: var(--color-primary);
+  color: #3b2300;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-blue {
+  background: var(--color-panel-header);
+  color: #ffffff;
+  box-shadow: var(--shadow-base);
+}
+
+.btn-icon {
+  background: var(--color-panel);
+  color: #ffffff;
+  border: 3px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-base);
+}
+
+/* Floating Hint */
+.camera-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  padding: 8px 18px;
+  border-radius: 14px;
+  background: rgba(11, 18, 32, 0.85);
+  backdrop-filter: blur(4px);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInBottom {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .camera-hint {
+    display: none;
+  }
+
+  .mobile-sheet {
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    height: 75vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    animation: slideInBottom 0.25s ease-out !important;
+  }
+
+  .detail-modal-card {
+    flex-direction: column !important;
+    height: 92vh !important;
+    max-height: 92vh !important;
+  }
+
+  .detail-modal-sidebar {
+    width: 100% !important;
+    max-height: 120px !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 10px !important;
+  }
+
+  .detail-modal-sidebar .agent-tab-item {
+    min-width: 140px !important;
+  }
+
+  .activity-log-panel {
+    width: calc(100% - 32px) !important;
+    right: 16px !important;
+    left: 16px !important;
+  }
+}

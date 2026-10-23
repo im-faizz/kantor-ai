@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Kantor AI 3D</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600&display=swap">
+<style>
+body{margin:0}
+sc-for,sc-if{display:contents}
+.vp{position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;background:#0f1830}
+.vp:active{cursor:grabbing}
+.sc{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+.fl{position:absolute;transform:translateZ(0.5px)}
+.bx{position:absolute;transform-style:preserve-3d;transform:translateZ(var(--z,0px))}
+.bx>i{position:absolute;display:block}
+.bx>.t{left:0;top:0;right:0;bottom:0;transform:translateZ(var(--h,10px));background:var(--c)}
+.bx>.s{left:0;top:100%;width:100%;height:var(--h,10px);transform-origin:50% 0;transform:rotateX(90deg);background:color-mix(in srgb,var(--c),#000 24%)}
+.bx>.w{left:0;top:0;width:var(--h,10px);height:100%;transform-origin:0 50%;transform:rotateY(-90deg);background:color-mix(in srgb,var(--c),#000 40%)}
+.rd>.t{border-radius:50%}
+.rk>.s{background:repeating-linear-gradient(0deg,#0f172a 0 8px,#22c55e 8px 10px)}
+.ag{position:absolute;width:0;height:0;transform-style:preserve-3d;transition:left 1.7s linear,top 1.7s linear}
+.sh{position:absolute;left:-13px;top:-6px;width:26px;height:12px;border-radius:50%;background:rgba(0,0,0,.3);transform:translateZ(1px)}
+.ring{position:absolute;left:-19px;top:-19px;width:38px;height:38px;box-sizing:border-box;border-radius:50%;border:3px solid #fde047;transform:translateZ(1px)}
+.bill{position:absolute;left:-22px;top:-64px;width:44px;height:64px;transform-origin:50% 100%;transform:rotateZ(45deg) rotateX(-55deg);cursor:pointer}
+.tag{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);white-space:nowrap;background:#0b1220;color:#fff;padding:2px 9px 3px;border-radius:10px;text-align:center;border:2px solid #fff}
+.tag b{display:block;font:400 13px 'Lilita One',sans-serif;letter-spacing:.03em}
+.tag span{display:block;font:500 10px 'Inter',sans-serif;color:#fde68a}
+.lgs{transform-origin:22px 46px}
+.lgL{transform-origin:16.5px 46px}
+.lgR{transform-origin:27.5px 46px}
+.armL{transform-origin:8.5px 31px}
+.armR{transform-origin:35.5px 31px}
+.walk{animation:bob .34s ease-in-out infinite}
+.walk .lgL,.walk .armR{animation:swA .34s ease-in-out infinite alternate}
+.walk .lgR,.walk .armL{animation:swA .34s ease-in-out infinite alternate-reverse}
+.sit{transform:translateY(9px)}
+.sit .lgs{transform:scaleY(.5)}
+.typ .armL{animation:ty .22s ease-in-out infinite alternate}
+.typ .armR{animation:tyR .22s ease-in-out infinite alternate-reverse}
+.gest .armR{animation:gs .9s ease-in-out infinite alternate}
+.sipc .armR{animation:sp 3s ease-in-out infinite}
+.bilp{transform-origin:22px 64px;transform:rotate(7deg)}
+.bilp .armR{animation:pk 1.4s ease-in-out infinite}
+.lie{transform-origin:22px 52px;transform:translate(12px,2px) rotate(-84deg)}
+.swim{animation:swm 1.6s ease-in-out infinite}
+.swim .lgs{opacity:0}
+.swim .armL{animation:spn .8s linear infinite}
+.swim .armR{animation:spn .8s linear infinite;animation-delay:-.4s}
+.zzz{position:absolute;left:30px;top:-8px;font:400 14px 'Lilita One',sans-serif;color:#fff;text-shadow:0 1px 2px #000;animation:zf 2s ease-in-out infinite}
+.rip{position:absolute;left:-22px;top:-22px;width:44px;height:44px;box-sizing:border-box;border:2px solid rgba(255,255,255,.85);border-radius:50%;animation:rp 1.8s ease-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes swA{from{transform:rotate(24deg)}to{transform:rotate(-24deg)}}
+@keyframes ty{from{transform:rotate(-38deg)}to{transform:rotate(-12deg)}}
+@keyframes tyR{from{transform:rotate(38deg)}to{transform:rotate(12deg)}}
+@keyframes gs{from{transform:rotate(-30deg)}to{transform:rotate(-115deg)}}
+@keyframes sp{0%,35%{transform:rotate(0)}50%,75%{transform:rotate(150deg)}90%,100%{transform:rotate(0)}}
+@keyframes pk{0%,100%{transform:rotate(0)}50%{transform:rotate(14deg)}}
+@keyframes swm{0%,100%{transform:translateY(6px) rotate(-4deg)}50%{transform:translateY(2px) rotate(4deg)}}
+@keyframes spn{to{transform:rotate(360deg)}}
+@keyframes zf{0%{opacity:0;transform:translateY(6px)}50%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}
+@keyframes rp{0%{transform:translateZ(9px) scale(.5);opacity:.9}100%{transform:translateZ(9px) scale(1.5);opacity:0}}
+.bub{position:absolute;left:50%;bottom:114px;transform:translateX(-50%);width:max-content;max-width:150px;box-sizing:border-box;background:#fff;color:#0b1220;font:500 12px/1.3 'Inter',sans-serif;padding:6px 10px;border-radius:12px;box-shadow:0 2px 0 rgba(0,0,0,.3);text-align:center;animation:pop .25s ease-out;pointer-events:none}
+.bub:after{content:'';position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-top-color:#fff;border-bottom:0}
+@keyframes pop{from{opacity:0;transform:translateX(-50%) scale(.6)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.lbl{position:absolute;left:0;top:0;transform-origin:0 0;transform:translateZ(48px) rotateZ(45deg) rotateX(-55deg) translate(-50%,-100%);white-space:nowrap;background:rgba(11,18,32,.85);color:#fff;font:400 14px 'Lilita One',sans-serif;letter-spacing:.05em;padding:3px 11px;border-radius:9px;pointer-events:none}
+.tr{position:absolute;left:-24px;top:-76px;width:48px;height:76px;transform-origin:50% 100%;transform:rotateZ(45deg) rotateX(-55deg);pointer-events:none}
+.cn{position:absolute;left:0;top:0;width:48px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9bd16f,#3f7d34)}
+.tk{position:absolute;left:21px;top:48px;width:6px;height:28px;background:#7c4a24}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #0f1830; font-family: 'Inter', sans-serif">
+
+<!-- CAMERA VIEWPORT -->
+<div class="vp" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerCancel="{{onUp}}" onWheel="{{onWheel}}">
+<div class="sc" style="transform: {{sceneT}}; transition: {{sceneTr}}">
+
+<!-- floors -->
+<div class="fl" style="left: 0; top: 0; width: 380px; height: 280px; background-color: #c7d4e6"></div>
+<div class="fl" style="left: 380px; top: 0; width: 280px; height: 280px; background-color: #d7cde8"></div>
+<div class="fl" style="left: 660px; top: 0; width: 300px; height: 280px; background-color: #e6d1b8"></div>
+<div class="fl" style="left: 0; top: 280px; width: 380px; height: 200px; background-color: #bfe0df"></div>
+<div class="fl" style="left: 380px; top: 280px; width: 580px; height: 200px; background-color: #ecd5c5"></div>
+<div class="fl" style="left: 0; top: 480px; width: 600px; height: 260px; background-color: #d3dce5"></div>
+<div class="fl" style="left: 600px; top: 480px; width: 180px; height: 260px; background-color: #f1e6bd"></div>
+<div class="fl" style="left: 780px; top: 480px; width: 180px; height: 260px; background-color: #a9b6c4"></div>
+
+<!-- walls: outer -->
+<div class="bx" style="--c:#efe6d2;--h:46px;left:-3px;top:-3px;width:966px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#efe6d2;--h:46px;left:957px;top:-3px;width:6px;height:746px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#cbbfa5;--h:12px;left:-3px;top:-3px;width:6px;height:746px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#cbbfa5;--h:12px;left:-3px;top:737px;width:966px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- walls: y=280 -->
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:0;top:277px;width:150px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:190px;top:277px;width:300px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:550px;top:277px;width:230px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:840px;top:277px;width:120px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- walls: y=480 -->
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:0;top:477px;width:150px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:200px;top:477px;width:280px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:540px;top:477px;width:140px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:720px;top:477px;width:120px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:880px;top:477px;width:80px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- walls: x=380 -->
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:377px;top:0;width:6px;height:120px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:377px;top:170px;width:6px;height:110px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:377px;top:280px;width:6px;height:80px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:377px;top:410px;width:6px;height:70px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- walls: x=660 -->
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:657px;top:0;width:6px;height:120px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:657px;top:170px;width:6px;height:110px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- walls: x=600 and x=780 (bottom) -->
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:597px;top:480px;width:6px;height:100px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:597px;top:630px;width:6px;height:110px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:777px;top:480px;width:6px;height:100px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#d9cdb4;--h:26px;left:777px;top:630px;width:6px;height:110px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- KANTOR UTAMA: desks -->
+<div class="bx" style="--c:#b08a58;--h:16px;left:36px;top:64px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:16px;left:148px;top:64px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:16px;left:260px;top:64px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:16px;left:36px;top:176px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:16px;left:148px;top:176px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:16px;left:260px;top:176px;width:84px;height:44px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:65px;top:70px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:177px;top:70px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:289px;top:70px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:65px;top:182px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:177px;top:182px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:16px;left:289px;top:182px;width:26px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:68px;top:116px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:180px;top:116px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:292px;top:116px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:68px;top:228px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:180px;top:228px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:292px;top:228px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c2d12;--h:12px;left:344px;top:238px;width:18px;height:18px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#22a05a;--h:24px;--z:12px;left:340px;top:234px;width:26px;height:26px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- RUANG MEETING -->
+<div class="bx rd" style="--c:#a9824f;--h:18px;left:440px;top:120px;width:160px;height:80px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:442px;top:92px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:492px;top:92px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:542px;top:92px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:442px;top:206px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:492px;top:206px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6d5bb0;--h:10px;left:542px;top:206px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#f8fafc;--h:34px;--z:10px;left:430px;top:6px;width:180px;height:5px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- RUANG MANAGER -->
+<div class="bx" style="--c:#8a5a2f;--h:18px;left:736px;top:110px;width:140px;height:56px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:16px;--z:18px;left:786px;top:116px;width:34px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#334155;--h:10px;left:796px;top:78px;width:22px;height:22px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#64748b;--h:10px;left:766px;top:184px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#64748b;--h:10px;left:824px;top:184px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6f7fa0;--h:38px;left:680px;top:224px;width:120px;height:8px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6f7fa0;--h:20px;left:680px;top:232px;width:120px;height:32px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c2d12;--h:12px;left:900px;top:44px;width:16px;height:16px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#22a05a;--h:26px;--z:12px;left:894px;top:38px;width:28px;height:28px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c4f2a;--h:56px;left:926px;top:70px;width:24px;height:120px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- RUANG KERJA -->
+<div class="bx" style="--c:#94a3b8;--h:30px;left:24px;top:322px;width:70px;height:4px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#94a3b8;--h:30px;left:112px;top:322px;width:70px;height:4px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#94a3b8;--h:30px;left:200px;top:322px;width:70px;height:4px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#94a3b8;--h:30px;left:288px;top:322px;width:70px;height:4px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:14px;left:24px;top:332px;width:70px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:14px;left:112px;top:332px;width:70px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:14px;left:200px;top:332px;width:70px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#b08a58;--h:14px;left:288px;top:332px;width:70px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:14px;left:47px;top:336px;width:24px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#f9a8d4;--h:14px;--z:14px;left:135px;top:336px;width:24px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:14px;left:223px;top:336px;width:24px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7dd3fc;--h:14px;--z:14px;left:311px;top:336px;width:24px;height:6px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:49px;top:374px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:137px;top:374px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:225px;top:374px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#5b6b84;--h:10px;left:313px;top:374px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#a9824f;--h:30px;left:24px;top:440px;width:332px;height:16px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- RUANG SANTAI: billiard -->
+<div class="bx" style="--c:#15803d;--h:22px;left:408px;top:332px;width:190px;height:104px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6b3f1d;--h:6px;--z:22px;left:408px;top:332px;width:190px;height:8px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6b3f1d;--h:6px;--z:22px;left:408px;top:428px;width:190px;height:8px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6b3f1d;--h:6px;--z:22px;left:408px;top:332px;width:8px;height:104px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#6b3f1d;--h:6px;--z:22px;left:590px;top:332px;width:8px;height:104px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<!-- sofas, coffee table, beanbag, tv -->
+<div class="bx" style="--c:#7c6bb0;--h:38px;left:680px;top:316px;width:150px;height:8px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c6bb0;--h:20px;left:680px;top:324px;width:150px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c6bb0;--h:20px;left:680px;top:422px;width:150px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#7c6bb0;--h:28px;left:680px;top:456px;width:150px;height:8px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#a9824f;--h:12px;left:710px;top:372px;width:90px;height:36px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#f97316;--h:18px;left:846px;top:384px;width:40px;height:40px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#0f172a;--h:44px;left:934px;top:336px;width:10px;height:90px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- KOLAM RENANG -->
+<div class="bx" style="--c:#e2e8f0;--h:8px;left:36px;top:532px;width:420px;height:170px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="fl" style="left: 44px; top: 540px; width: 404px; height: 154px; border-radius: 8px; background: linear-gradient(135deg, #0ea5e9, #22d3ee); transform: translateZ(8.6px)"></div>
+<div class="fl" style="left: 44px; top: 590px; width: 404px; height: 2px; background: rgba(255,255,255,.45); transform: translateZ(8.8px)"></div>
+<div class="fl" style="left: 44px; top: 642px; width: 404px; height: 2px; background: rgba(255,255,255,.45); transform: translateZ(8.8px)"></div>
+<div class="bx" style="--c:#cbd5e1;--h:16px;left:420px;top:524px;width:10px;height:14px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#f1f5f9;--h:10px;left:480px;top:544px;width:36px;height:84px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#f1f5f9;--h:10px;left:528px;top:544px;width:36px;height:84px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#94a3b8;--h:46px;left:518px;top:676px;width:4px;height:4px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#f43f5e;--h:4px;--z:46px;left:490px;top:648px;width:62px;height:62px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- PANTRY -->
+<div class="bx" style="--c:#94a3b8;--h:26px;left:612px;top:524px;width:148px;height:28px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#0f172a;--h:16px;--z:26px;left:622px;top:530px;width:22px;height:16px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#e5e7eb;--h:50px;left:724px;top:560px;width:30px;height:34px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rd" style="--c:#a9824f;--h:16px;left:654px;top:608px;width:72px;height:72px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#475569;--h:10px;left:632px;top:598px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#475569;--h:10px;left:728px;top:598px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#475569;--h:10px;left:632px;top:672px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#475569;--h:10px;left:728px;top:672px;width:20px;height:20px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- RUANG SERVER -->
+<div class="bx rk" style="--c:#0f172a;--h:72px;left:796px;top:560px;width:40px;height:56px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rk" style="--c:#0f172a;--h:72px;left:846px;top:560px;width:40px;height:56px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx rk" style="--c:#0f172a;--h:72px;left:896px;top:560px;width:40px;height:56px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+<div class="bx" style="--c:#38bdf8;--h:4px;left:800px;top:660px;width:132px;height:40px"><i class="t"></i><i class="s"></i><i class="w"></i></div>
+
+<!-- room labels -->
+<div class="ag" style="left: 190px; top: 24px"><div class="lbl">Kantor Utama</div></div>
+<div class="ag" style="left: 520px; top: 24px"><div class="lbl">Ruang Meeting</div></div>
+<div class="ag" style="left: 810px; top: 24px"><div class="lbl">Ruang Manager</div></div>
+<div class="ag" style="left: 190px; top: 300px"><div class="lbl">Ruang Kerja</div></div>
+<div class="ag" style="left: 520px; top: 300px"><div class="lbl">Ruang Santai</div></div>
+<div class="ag" style="left: 240px; top: 500px"><div class="lbl">Kolam Renang</div></div>
+<div class="ag" style="left: 690px; top: 500px"><div class="lbl">Pantry</div></div>
+<div class="ag" style="left: 870px; top: 500px"><div class="lbl">Ruang Server</div></div>
+
+<!-- AGENTS -->
+<sc-for list="{{agents}}" as="a" hint-placeholder-count="3">
+<div class="ag" style="left: {{a.x}}px; top: {{a.y}}px; transition: left {{a.dur}}s linear, top {{a.dur}}s linear">
+<div class="sh"></div>
+<div class="ring" style="opacity: {{a.ringOp}}"></div>
+<div class="rip" style="display: {{a.ripD}}"></div>
+<div class="bill" onClick="{{a.pick}}">
+<div class="bub" style="display: {{a.bubD}}">{{a.bub}}</div>
+<div class="tag" style="border-color: {{a.shirt}}"><b>{{a.name}}</b><span>{{a.shortStatus}}</span></div><div class="zzz" style="display: {{a.zD}}">Zzz</div>
+<div style="transform: translateY({{a.lift}}px)">
+<svg class="{{a.cls}}" width="44" height="64" viewBox="0 0 44 64" style="display: block; overflow: visible">
+<g class="lgs"><g class="lgL"><rect x="13" y="46" width="7" height="14" rx="3" fill="#1e293b"></rect><rect x="11" y="58" width="10" height="5" rx="2.5" fill="#0b1220"></rect></g><g class="lgR"><rect x="24" y="46" width="7" height="14" rx="3" fill="#1e293b"></rect><rect x="23" y="58" width="10" height="5" rx="2.5" fill="#0b1220"></rect></g></g>
+<rect x="10" y="27" width="24" height="22" rx="7" fill="{{a.shirt}}"></rect>
+<g class="armL"><rect x="5" y="29" width="7" height="17" rx="3.5" fill="{{a.shirt}}"></rect><circle cx="8.5" cy="47" r="3.5" fill="{{a.skin}}"></circle></g>
+<path d="M22 29 L25 33 L22 44 L19 33Z" fill="#dc2626" opacity="{{a.tie}}"></path>
+<circle cx="22" cy="17" r="13" fill="{{a.skin}}"></circle>
+<path d="M9 17 C8 4 20 0 25 2 C33 3 36 10 35 17 C32 11 27 9 22 9 C17 9 12 11 9 17Z" fill="{{a.hair}}"></path>
+<circle cx="22" cy="2" r="4.5" fill="{{a.hair}}" opacity="{{a.bun}}"></circle>
+<circle cx="16.5" cy="19" r="2.2" fill="#0b1220"></circle>
+<circle cx="27.5" cy="19" r="2.2" fill="#0b1220"></circle>
+<circle cx="17.2" cy="18.3" r="0.8" fill="#ffffff"></circle>
+<circle cx="28.2" cy="18.3" r="0.8" fill="#ffffff"></circle>
+<circle cx="12.5" cy="23.5" r="2.4" fill="#f87171" opacity="0.35"></circle>
+<circle cx="31.5" cy="23.5" r="2.4" fill="#f87171" opacity="0.35"></circle>
+<path d="M18.5 25 Q22 28 25.5 25" stroke="#7f1d1d" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+<g opacity="{{a.gl}}" fill="none" stroke="#0b1220" stroke-width="1.4"><circle cx="16.5" cy="19" r="4.6"></circle><circle cx="27.5" cy="19" r="4.6"></circle><path d="M21 19 h2"></path></g>
+<g opacity="{{a.hs}}"><path d="M8 18 C8 3 36 3 36 18" stroke="#0b1220" stroke-width="2.4" fill="none"></path><rect x="5" y="16" width="5" height="8" rx="2.5" fill="#0b1220"></rect><rect x="34" y="16" width="5" height="8" rx="2.5" fill="#0b1220"></rect><path d="M7 24 Q9 30 18 29" stroke="#0b1220" stroke-width="1.6" fill="none"></path></g>
+<ellipse cx="25" cy="5" rx="13" ry="5" fill="#ec4899" opacity="{{a.be}}"></ellipse>
+<path d="M9 12 C9 -1 35 -1 35 12Z" fill="#2563eb" opacity="{{a.cp}}"></path>
+<rect x="26" y="9" width="14" height="4" rx="2" fill="#1d4ed8" opacity="{{a.cp}}"></rect>
+<g class="armR"><rect x="32" y="29" width="7" height="17" rx="3.5" fill="{{a.shirt}}"></rect><circle cx="35.5" cy="47" r="3.5" fill="{{a.skin}}"></circle><g opacity="{{a.pCup}}"><rect x="33" y="44" width="8" height="7" rx="1.5" fill="#ffffff"></rect><path d="M41 46 q3 0 0 4" stroke="#ffffff" stroke-width="1.4" fill="none"></path></g><g opacity="{{a.pCue}}"><line x1="30" y1="56" x2="64" y2="12" stroke="#d6a45a" stroke-width="2.4" stroke-linecap="round"></line><circle cx="64" cy="12" r="1.8" fill="#3b82f6"></circle></g></g>
+</svg>
+</div>
+</div>
+</div>
+</sc-for>
+
+</div>
+</div>
+
+<!-- TOP LEFT: title -->
+<div style="position: absolute; left: 24px; top: 20px; display: flex; align-items: center; gap: 12px; padding: 8px 18px 8px 14px; border-radius: 16px; background: #1b2742; border: 3px solid #0b1220; box-shadow: 0 5px 0 rgba(0,0,0,.28)">
+<div style="width: 34px; height: 34px; border-radius: 10px; background: #fbbf24; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b2300" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12"></path><path d="M9 21v-7h6v7"></path></svg></div>
+<div style="font: 400 22px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em">Kantor AI</div>
+</div>
+
+<!-- TITLE: detail button -->
+<button onClick="{{openDv}}" aria-label="Buka detail seluruh agen" style="position: absolute; left: 24px; top: 92px; height: 46px; display: flex; align-items: center; gap: 9px; padding: 0 18px 0 14px; border: 3px solid #0b1220; border-radius: 14px; background: #243350; color: #ffffff; cursor: pointer; font: 400 16px 'Lilita One', sans-serif; letter-spacing: 0.02em; box-shadow: 0 4px 0 rgba(0,0,0,.28)">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+Detail Agen
+</button>
+
+<!-- TOP RIGHT: team button -->
+<button onClick="{{togglePanel}}" aria-label="Buka tim karyawan AI" style="position: absolute; right: 24px; top: 20px; height: 56px; display: flex; align-items: center; gap: 10px; padding: 0 20px 0 16px; border: 3px solid #0b1220; border-radius: 16px; background: {{teamBtnBg}}; color: #3b2300; cursor: pointer; font: 400 20px 'Lilita One', sans-serif; box-shadow: 0 5px 0 #b45309">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3b2300" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"></path><circle cx="17" cy="9" r="2.6"></circle><path d="M17.5 14.2c2.6 0.2 4.5 2 4.5 5.3"></path></svg>
+Tim AI
+<span style="min-width: 26px; height: 26px; padding: 0 6px; box-sizing: border-box; border-radius: 13px; background: #0b1220; color: #fde68a; font: 400 15px 'Lilita One', sans-serif; display: flex; align-items: center; justify-content: center">8</span>
+</button>
+
+<!-- DRAWER -->
+<sc-if value="{{panelOpen}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; right: 24px; top: 92px; bottom: 32px; width: 380px; display: flex; flex-direction: column; background: #1b2742; border: 3px solid #0b1220; border-radius: 18px; box-shadow: 0 8px 0 rgba(0,0,0,.28), 0 24px 40px rgba(0,0,0,.35); overflow: hidden">
+
+<sc-if value="{{showList}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; flex: 1; min-height: 0">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px 18px">
+<div style="font: 400 22px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em">Tim Karyawan AI</div>
+<button onClick="{{closePanel}}" aria-label="Tutup panel" style="width: 36px; height: 36px; border: 0; border-radius: 10px; background: #243350; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
+</div>
+<div style="padding: 0 18px 10px; font: 400 12px 'Inter', sans-serif; color: #9fb0cf">Ketuk agen untuk mengobrol dan memberi instruksi.</div>
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 0 14px 14px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{agents}}" as="a" hint-placeholder-count="3">
+<button onClick="{{a.chat}}" style="display: flex; gap: 12px; align-items: center; width: 100%; box-sizing: border-box; text-align: left; padding: 10px 12px; border: 0; border-radius: 14px; background: #243350; cursor: pointer; color: #ffffff; font-family: 'Inter', sans-serif; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25)">
+<div style="flex: none; width: 46px; height: 46px; border-radius: 12px; background: #fff4dc; overflow: hidden; border: 2px solid {{a.shirt}}">
+<svg width="42" height="42" viewBox="4 -3 36 36" aria-hidden="true" style="display: block">
+<circle cx="22" cy="17" r="13" fill="{{a.skin}}"></circle>
+<path d="M9 17 C8 4 20 0 25 2 C33 3 36 10 35 17 C32 11 27 9 22 9 C17 9 12 11 9 17Z" fill="{{a.hair}}"></path>
+<circle cx="22" cy="2" r="4.5" fill="{{a.hair}}" opacity="{{a.bun}}"></circle>
+<circle cx="16.5" cy="19" r="2.2" fill="#0b1220"></circle>
+<circle cx="27.5" cy="19" r="2.2" fill="#0b1220"></circle>
+<path d="M18.5 25 Q22 28 25.5 25" stroke="#7f1d1d" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+<g opacity="{{a.gl}}" fill="none" stroke="#0b1220" stroke-width="1.4"><circle cx="16.5" cy="19" r="4.6"></circle><circle cx="27.5" cy="19" r="4.6"></circle><path d="M21 19 h2"></path></g>
+<g opacity="{{a.hs}}"><path d="M8 18 C8 3 36 3 36 18" stroke="#0b1220" stroke-width="2.4" fill="none"></path><rect x="5" y="16" width="5" height="8" rx="2.5" fill="#0b1220"></rect><rect x="34" y="16" width="5" height="8" rx="2.5" fill="#0b1220"></rect></g>
+<ellipse cx="25" cy="5" rx="13" ry="5" fill="#ec4899" opacity="{{a.be}}"></ellipse>
+<path d="M9 12 C9 -1 35 -1 35 12Z" fill="#2563eb" opacity="{{a.cp}}"></path>
+</svg>
+</div>
+<div style="flex: 1; min-width: 0">
+<div style="display: flex; align-items: baseline; gap: 8px"><span style="font: 400 17px 'Lilita One', sans-serif; letter-spacing: 0.02em">{{a.name}}</span><span style="font: 500 12px 'Inter', sans-serif; color: #9fb0cf">{{a.role}}</span></div>
+<div style="font: 500 12px 'Inter', sans-serif; color: #fde68a; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{a.status}} · {{a.where}}</div>
+<div style="display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap">
+<sc-for list="{{a.skillList}}" as="sk" hint-placeholder-count="3"><span style="padding: 1px 8px; border-radius: 10px; background: #1b2742; color: #cbd5e1; font: 400 11px 'Inter', sans-serif">{{sk.t}}</span></sc-for>
+</div>
+</div>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"></path></svg>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showChat}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; flex: 1; min-height: 0">
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #243350">
+<button onClick="{{backToList}}" aria-label="Kembali ke daftar tim" style="flex: none; width: 36px; height: 36px; border: 0; border-radius: 10px; background: #1b2742; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: {{selShirt}}; color: #0b1220; font: 400 20px 'Lilita One', sans-serif; display: flex; align-items: center; justify-content: center; border: 2px solid #0b1220">{{selInitial}}</div>
+<div style="flex: 1; min-width: 0">
+<div style="font: 400 19px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em">{{selName}} <span style="font: 500 12px 'Inter', sans-serif; color: #9fb0cf">{{selRole}}</span></div>
+<div style="font: 500 12px 'Inter', sans-serif; color: #fde68a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{selStatus}} · {{selWhere}}</div>
+</div>
+<button onClick="{{closePanel}}" aria-label="Tutup panel" style="flex: none; width: 36px; height: 36px; border: 0; border-radius: 10px; background: #1b2742; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
+</div>
+<div style="padding: 6px 14px; background: #162036; font: 400 11px 'Inter', sans-serif; color: #9fb0cf">Mode demo: balasan agen disimulasikan. Coba "rapat di ruang meeting", "main bilyard", atau "mulai kerja".</div>
+<div style="flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column-reverse; gap: 8px; padding: 12px 14px">
+<sc-for list="{{messages}}" as="m" hint-placeholder-count="3">
+<div style="display: flex; justify-content: {{m.just}}"><div style="max-width: 82%; padding: 8px 12px; border-radius: 14px; background: {{m.bg}}; color: {{m.fg}}; font: 400 14px 'Inter', sans-serif; line-height: 1.4">{{m.text}}</div></div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 0">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="3"><button onClick="{{c.fn}}" style="padding: 5px 11px; border: 2px solid #fbbf24; border-radius: 14px; background: transparent; color: #fde68a; cursor: pointer; font: 500 12px 'Inter', sans-serif">{{c.t}}</button></sc-for>
+</div>
+<div style="display: flex; gap: 8px; padding: 10px 14px 14px">
+<input aria-label="Tulis instruksi untuk agen" placeholder="Tulis instruksi untuk agen..." value="{{draft}}" onInput="{{onDraft}}" onKeyDown="{{onKey}}" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 11px 14px; border: 2px solid #0b1220; border-radius: 12px; background: #0f1830; color: #ffffff; font: 400 14px 'Inter', sans-serif; outline: none">
+<button onClick="{{send}}" aria-label="Kirim pesan" style="flex: none; width: 46px; border: 3px solid #0b1220; border-radius: 12px; background: #fbbf24; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 #b45309"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b2300" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l16-8-6 16-3-7-7-1z"></path></svg></button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</sc-if>
+
+<!-- BOTTOM RIGHT: activity log -->
+<sc-if value="{{logVisible}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; right: 24px; bottom: 24px; width: 330px; display: flex; flex-direction: column; background: #1b2742; border: 3px solid #0b1220; border-radius: 16px; box-shadow: 0 6px 0 rgba(0,0,0,.28); overflow: hidden">
+<button onClick="{{toggleLog}}" aria-label="Buka atau tutup riwayat aktivitas" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 10px 14px; border: 0; background: #243350; color: #ffffff; cursor: pointer; text-align: left">
+<span style="width: 9px; height: 9px; border-radius: 50%; background: #34d399; flex: none"></span>
+<span style="flex: 1; font: 400 17px 'Lilita One', sans-serif; letter-spacing: 0.02em">Hasil Tugas</span>
+<span style="font: 500 12px 'Inter', sans-serif; color: #9fb0cf">{{logCount}}</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<sc-if value="{{logOpen}}" hint-placeholder-val="{{true}}">
+<div style="max-height: 250px; overflow-y: auto; padding: 4px 14px 8px">
+<sc-if value="{{noRes}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px 0; font: 400 12px 'Inter', sans-serif; color: #9fb0cf">Belum ada hasil. Agen sedang mengerjakan tugas pertama.</div>
+</sc-if>
+<sc-for list="{{resItems}}" as="e" hint-placeholder-count="3">
+<button onClick="{{e.toggle}}" style="display: block; width: 100%; box-sizing: border-box; text-align: left; margin-top: 8px; padding: 10px 12px; border: 0; border-radius: 12px; background: #243350; color: #ffffff; cursor: pointer; font-family: 'Inter', sans-serif; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25)">
+<div style="display: flex; gap: 7px; align-items: center">
+<span style="padding: 1px 7px; border-radius: 8px; background: {{e.shirt}}; color: #0b1220; font: 700 9px 'Inter', sans-serif; letter-spacing: 0.06em">{{e.tag}}</span>
+<span style="font: 400 13px 'Lilita One', sans-serif; letter-spacing: 0.02em">{{e.name}}</span>
+<span style="margin-left: auto; font: 400 10px 'Inter', sans-serif; color: #8193b3">{{e.time}}</span>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9fb0cf" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{e.arrow}}"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+<div style="font: 600 13px/1.3 'Inter', sans-serif; color: #ffffff; margin-top: 6px">{{e.title}}</div>
+<div style="font: 400 12px/1.35 'Inter', sans-serif; color: #c3d0e6; margin-top: 2px">{{e.sum}}</div>
+<div style="display: {{e.openD}}; margin-top: 8px; padding-top: 8px; border-top: 1px solid #33466b">
+<div style="display: flex; align-items: center; gap: 7px; font: 500 12px 'Inter', sans-serif; color: #fde68a">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fde68a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>
+{{e.file}}
+</div>
+<div style="font: 400 11px 'Inter', sans-serif; color: #9fb0cf; margin-top: 4px">Dikerjakan {{e.name}} ({{e.role}}) · menunggu review Bima</div>
+</div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- BOTTOM LEFT: zoom controls -->
+<div style="position: absolute; left: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 8px">
+<button onClick="{{zoomIn}}" aria-label="Perbesar" style="width: 48px; height: 48px; border: 3px solid #0b1220; border-radius: 14px; background: #1b2742; color: #ffffff; cursor: pointer; font: 400 28px 'Lilita One', sans-serif; line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.28)">+</button>
+<button onClick="{{zoomOut}}" aria-label="Perkecil" style="width: 48px; height: 48px; border: 3px solid #0b1220; border-radius: 14px; background: #1b2742; color: #ffffff; cursor: pointer; font: 400 28px 'Lilita One', sans-serif; line-height: 1; box-shadow: 0 4px 0 rgba(0,0,0,.28)">-</button>
+<button onClick="{{resetCam}}" aria-label="Pusatkan kamera" style="width: 48px; height: 48px; border: 3px solid #0b1220; border-radius: 14px; background: #1b2742; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 0 rgba(0,0,0,.28)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></button>
+</div>
+
+<!-- BOTTOM CENTER: hint -->
+<div style="position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 8px 18px; border-radius: 14px; background: rgba(11,18,32,.82); color: #e2e8f0; font: 500 13px 'Inter', sans-serif; white-space: nowrap; pointer-events: none">Seret untuk geser kamera · scroll atau cubit untuk zoom · ketuk karakter untuk chat</div>
+
+<!-- DETAIL OVERLAY -->
+<sc-if value="{{dvOpen}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 50; background: rgba(8,12,24,.8); display: flex; align-items: center; justify-content: center; padding: 32px; box-sizing: border-box">
+<div style="width: 100%; height: 100%; max-width: 1260px; display: flex; background: #1b2742; border: 3px solid #0b1220; border-radius: 20px; box-shadow: 0 10px 0 rgba(0,0,0,.3); overflow: hidden">
+
+<div style="flex: none; width: 250px; background: #16213a; padding: 16px 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto">
+<div style="padding: 0 6px 6px; font: 400 21px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em">Detail Agen</div>
+<sc-for list="{{dvAgents}}" as="g" hint-placeholder-count="4">
+<button onClick="{{g.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 9px 10px; border: 0; border-radius: 12px; background: {{g.bg}}; color: #ffffff; cursor: pointer; text-align: left; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25)">
+<span style="flex: none; width: 36px; height: 36px; border-radius: 50%; background: {{g.shirt}}; color: #0b1220; font: 400 17px 'Lilita One', sans-serif; display: flex; align-items: center; justify-content: center; border: 2px solid #0b1220">{{g.initial}}</span>
+<span style="flex: 1; min-width: 0">
+<span style="display: block; font: 400 15px 'Lilita One', sans-serif; letter-spacing: 0.02em">{{g.name}}</span>
+<span style="display: block; font: 400 11px 'Inter', sans-serif; color: #9fb0cf">{{g.role}}</span>
+<span style="display: block; margin-top: 5px; height: 4px; border-radius: 2px; background: #0f1830; overflow: hidden"><span style="display: block; height: 4px; width: {{g.pctW}}; background: #fbbf24; border-radius: 2px"></span></span>
+</span>
+</button>
+</sc-for>
+</div>
+
+<div style="flex: 1; min-width: 0; overflow-y: auto; padding: 24px 28px 28px">
+<div style="display: flex; align-items: center; gap: 16px">
+<div style="flex: none; width: 64px; height: 64px; border-radius: 50%; background: {{dv.shirt}}; color: #0b1220; font: 400 30px 'Lilita One', sans-serif; display: flex; align-items: center; justify-content: center; border: 3px solid #0b1220">{{dv.initial}}</div>
+<div style="flex: 1; min-width: 0">
+<div style="font: 400 30px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em; line-height: 1.1">{{dv.name}} <span style="font: 500 14px 'Inter', sans-serif; color: #9fb0cf; letter-spacing: 0">{{dv.role}}</span></div>
+<div style="font: 500 13px 'Inter', sans-serif; color: #fde68a; margin-top: 3px">{{dv.status}} · {{dv.where}}</div>
+<div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap"><sc-for list="{{dv.skills}}" as="sk" hint-placeholder-count="3"><span style="padding: 2px 10px; border-radius: 10px; background: #243350; color: #cbd5e1; font: 400 12px 'Inter', sans-serif">{{sk.t}}</span></sc-for></div>
+</div>
+<button onClick="{{dv.chat}}" style="flex: none; height: 44px; padding: 0 18px; border: 3px solid #0b1220; border-radius: 12px; background: #fbbf24; color: #3b2300; cursor: pointer; font: 400 16px 'Lilita One', sans-serif; box-shadow: 0 4px 0 #b45309">Chat</button>
+<button onClick="{{closeDv}}" aria-label="Tutup detail agen" style="flex: none; width: 44px; height: 44px; border: 0; border-radius: 12px; background: #243350; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
+</div>
+
+<div style="margin-top: 22px; padding: 16px 18px; border-radius: 14px; background: #243350">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font: 600 11px 'Inter', sans-serif; letter-spacing: 0.08em; color: #9fb0cf">{{dv.taskLabel}}</span><span style="margin-left: auto; font: 400 20px 'Lilita One', sans-serif; color: #fbbf24">{{dv.pctTxt}}</span></div>
+<div style="font: 600 16px 'Inter', sans-serif; color: #ffffff; margin-top: 4px">{{dv.task}}</div>
+<div style="margin-top: 10px; height: 10px; border-radius: 5px; background: #0f1830; overflow: hidden"><div style="height: 10px; width: {{dv.pctW}}; border-radius: 5px; background: #fbbf24; transition: width 0.9s linear"></div></div>
+<div style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap"><sc-for list="{{dv.steps}}" as="st" hint-placeholder-count="4"><span style="padding: 3px 12px; border-radius: 10px; background: {{st.bg}}; color: {{st.fg}}; font: 600 12px 'Inter', sans-serif">{{st.n}}</span></sc-for></div>
+<div style="margin-top: 12px; font: 400 12px 'Inter', sans-serif; color: #9fb0cf">{{dv.doneCount}} tugas selesai tercatat</div>
+</div>
+
+<div style="margin-top: 22px; display: flex; align-items: baseline; gap: 10px">
+<div style="font: 400 20px 'Lilita One', sans-serif; color: #ffffff; letter-spacing: 0.02em">Hasil Output</div>
+<div style="display: {{dv.sampleD}}; font: 400 12px 'Inter', sans-serif; color: #9fb0cf">Belum ada hasil, ini contoh output.</div>
+</div>
+<div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap"><sc-for list="{{dv.outs}}" as="o" hint-placeholder-count="3"><button onClick="{{o.pick}}" style="padding: 6px 14px; border: 0; border-radius: 12px; background: {{o.bg}}; color: {{o.fg}}; cursor: pointer; font: 600 12px 'Inter', sans-serif">{{o.file}}</button></sc-for></div>
+
+<div style="margin-top: 14px; padding: 18px 20px; border-radius: 14px; background: #16213a">
+<div style="display: flex; align-items: center; gap: 8px"><span style="padding: 1px 8px; border-radius: 8px; background: {{dv.shirt}}; color: #0b1220; font: 700 10px 'Inter', sans-serif; letter-spacing: 0.06em">{{dv.curTag}}</span><span style="font: 600 15px 'Inter', sans-serif; color: #ffffff">{{dv.curTitle}}</span><span style="margin-left: auto; font: 400 11px 'Inter', sans-serif; color: #8193b3">{{dv.curFile}} · {{dv.curTime}}</span></div>
+<div style="font: 400 13px 'Inter', sans-serif; color: #c3d0e6; margin-top: 4px">{{dv.curSum}}</div>
+
+<div style="margin-top: 14px">
+<sc-if value="{{dv.isCode}}" hint-placeholder-val="{{false}}"><pre style="margin: 0; padding: 14px 16px; border-radius: 10px; background: #0b1220; color: #a7f3d0; font: 400 12px/1.6 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-x: auto">{{dv.code}}</pre></sc-if>
+<sc-if value="{{dv.isDoc}}" hint-placeholder-val="{{false}}"><div style="padding: 4px 4px 8px"><sc-for list="{{dv.lines}}" as="l" hint-placeholder-count="4"><div style="font-size: {{l.fs}}; font-weight: {{l.fw}}; color: {{l.col}}; padding-left: {{l.pl}}; margin-top: {{l.mt}}; font-family: 'Inter', sans-serif; line-height: 1.5">{{l.t}}</div></sc-for></div></sc-if>
+<sc-if value="{{dv.isChart}}" hint-placeholder-val="{{false}}"><div style="display: flex; align-items: flex-end; gap: 14px; height: 170px; padding: 8px 8px 0"><sc-for list="{{dv.bars}}" as="b" hint-placeholder-count="6"><div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px"><span style="font: 600 12px 'Inter', sans-serif; color: #e2e8f0">{{b.v}}</span><div style="width: 100%; max-width: 54px; height: {{b.h}}; border-radius: 6px 6px 0 0; background: {{b.bg}}"></div><span style="font: 400 11px 'Inter', sans-serif; color: #9fb0cf">{{b.n}}</span></div></sc-for></div></sc-if>
+<sc-if value="{{dv.isImage}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 280 360" width="260" height="334" role="img" aria-label="Pratinjau desain" style="display: block; border-radius: 12px; max-width: 100%"><rect width="280" height="360" fill="#1b2742"></rect><circle cx="230" cy="70" r="90" fill="#fbbf24"></circle><circle cx="40" cy="330" r="70" fill="#f472b6"></circle><rect x="24" y="200" width="150" height="10" rx="5" fill="#34d399"></rect><text x="24" y="62" font-family="Lilita One, sans-serif" font-size="30" fill="#ffffff">{{dv.imgA}}</text><text x="24" y="100" font-family="Lilita One, sans-serif" font-size="30" fill="#fde68a">{{dv.imgB}}</text><rect x="24" y="240" width="110" height="34" rx="17" fill="#ffffff"></rect><text x="48" y="262" font-family="Inter, sans-serif" font-weight="700" font-size="14" fill="#1b2742">Lihat promo</text></svg></sc-if>
+<sc-if value="{{dv.isPalette}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 10px; flex-wrap: wrap"><sc-for list="{{dv.sw}}" as="c" hint-placeholder-count="5"><div style="width: 92px"><div style="height: 70px; border-radius: 10px; background: {{c.c}}; border: 2px solid #0b1220"></div><div style="font: 600 11px 'Inter', sans-serif; color: #e2e8f0; margin-top: 5px">{{c.n}}</div><div style="font: 400 10px 'Inter', sans-serif; color: #9fb0cf">{{c.c}}</div></div></sc-for></div></sc-if>
+</div>
+</div>
+<div style="margin-top: 10px; font: 400 11px 'Inter', sans-serif; color: #7487a8">Contoh output simulasi. Nanti diisi hasil asli dari agen.</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+const ag = {};
+this.defs().forEach((d) => {
+const ACT0 = { bima: 'work', sari: 'work', dika: 'work', maya: 'work', raka: 'meet', tari: 'meet', joko: 'bil', lina: 'pool' };
+ag[d.id] = { x: d.home[0], y: d.home[1], status: d.idle, where: d.homeRoom, moving: false, act: ACT0[d.id], dur: 1 };
+});
+this.state = { cam: { x: 0, y: 0, z: 1, anim: false }, panel: 'closed', sel: null, draft: '', chats: {}, ag: ag, bub: {}, results: [], openRes: 0, logOpen: true, dv: false, dvAgent: 'bima', dvSel: {}, prog: { bima: 35, sari: 60, dika: 20, maya: 70, raka: 45, tari: 15, joko: 0, lina: 0 } };
+this._p = new Map();
+this._moved = false;
+this._start = { x: 0, y: 0 };
+this._timers = [];
+this._tok = {};
+}
+
+componentDidMount() {
+this._timers.push(setTimeout(() => this.chatter(), 900));
+this._amb = setInterval(() => this.chatter(), 4500);
+this._timers.push(setTimeout(() => this.workTick(), 500));
+this._wk = setInterval(() => this.workTick(), 3800);
+this._timers.push(setTimeout(() => this.resultTick(), 2500));
+this._rs = setInterval(() => this.progTick(), 1000);
+}
+
+componentWillUnmount() {
+this._timers.forEach((t) => clearTimeout(t));
+clearInterval(this._amb);
+clearInterval(this._wk);
+clearInterval(this._rs);
+}
+
+defs() {
+return [
+{ id: 'bima', name: 'Bima', role: 'Manager Proyek', shirt: '#f59e0b', hair: '#1f2937', skin: '#f1c9a5', tie: 1, gl: 0, hs: 0, be: 0, cp: 0, bun: 0, skills: ['Delegasi', 'Review', 'Prioritas'], home: [807, 92], homeRoom: 'Ruang Manager', desk: [807, 92], deskRoom: 'Ruang Manager', idle: 'Meninjau laporan', verb: 'membagi tugas', verbCap: 'Membagi tugas', intro: 'Halo, saya Bima. Beri saya target, nanti saya bagi ke tim.' },
+{ id: 'sari', name: 'Sari', role: 'Peneliti', shirt: '#34d399', hair: '#7c2d12', skin: '#e8b88f', tie: 0, gl: 1, hs: 0, be: 0, cp: 0, bun: 0, skills: ['Riset web', 'Ringkasan', 'Cek fakta'], home: [78, 128], homeRoom: 'Kantor Utama', desk: [78, 128], deskRoom: 'Kantor Utama', idle: 'Meneliti topik', verb: 'meneliti', verbCap: 'Meneliti', intro: 'Hai, saya Sari. Kasih topik, saya carikan datanya.' },
+{ id: 'dika', name: 'Dika', role: 'Programmer', shirt: '#60a5fa', hair: '#111827', skin: '#f1c9a5', tie: 0, gl: 0, hs: 1, be: 0, cp: 0, bun: 0, skills: ['Kode', 'Debug', 'Tes'], home: [190, 128], homeRoom: 'Kantor Utama', desk: [190, 128], deskRoom: 'Kantor Utama', idle: 'Menulis kode', verb: 'menulis kode', verbCap: 'Ngoding', intro: 'Yo, Dika di sini. Ada bug atau fitur baru?' },
+{ id: 'maya', name: 'Maya', role: 'Desainer', shirt: '#f472b6', hair: '#be185d', skin: '#f5d0b0', tie: 0, gl: 0, hs: 0, be: 1, cp: 0, bun: 0, skills: ['UI', 'Poster', 'Brand'], home: [147, 384], homeRoom: 'Ruang Kerja', desk: [147, 384], deskRoom: 'Ruang Kerja', idle: 'Mendesain poster', verb: 'mendesain', verbCap: 'Mendesain', intro: 'Halo, saya Maya. Mau desain apa hari ini?' },
+{ id: 'raka', name: 'Raka', role: 'Penulis', shirt: '#c084fc', hair: '#4c1d95', skin: '#e8b88f', tie: 0, gl: 0, hs: 0, be: 0, cp: 1, bun: 0, skills: ['Copywriting', 'Naskah', 'Editing'], home: [452, 104], homeRoom: 'Ruang Meeting', desk: [59, 384], deskRoom: 'Ruang Kerja', idle: 'Rapat ide konten', verb: 'menulis naskah', verbCap: 'Menulis', intro: 'Raka siap. Kasih brief, saya tuliskan.' },
+{ id: 'tari', name: 'Tari', role: 'Analis Data', shirt: '#fb923c', hair: '#9a3412', skin: '#f5d0b0', tie: 0, gl: 1, hs: 0, be: 0, cp: 0, bun: 1, skills: ['Spreadsheet', 'Grafik', 'Insight'], home: [552, 104], homeRoom: 'Ruang Meeting', desk: [235, 384], deskRoom: 'Ruang Kerja', idle: 'Rapat ide konten', verb: 'mengolah data', verbCap: 'Olah data', intro: 'Halo, Tari di sini. Kirim datanya, saya cari polanya.' },
+{ id: 'joko', name: 'Joko', role: 'Marketing', shirt: '#facc15', hair: '#713f12', skin: '#d9a679', tie: 1, gl: 0, hs: 0, be: 0, cp: 0, bun: 0, skills: ['Strategi', 'Sosmed', 'Iklan'], home: [628, 384], homeRoom: 'Ruang Santai', desk: [78, 238], deskRoom: 'Kantor Utama', idle: 'Main bilyard', verb: 'menyusun strategi', verbCap: 'Strategi', intro: 'Halo, Joko. Mau naikin penjualan? Bilang aja.' },
+{ id: 'lina', name: 'Lina', role: 'Customer Service', shirt: '#2dd4bf', hair: '#0f766e', skin: '#f1c9a5', tie: 0, gl: 0, hs: 1, be: 0, cp: 0, bun: 0, skills: ['Balas chat', 'FAQ', 'Eskalasi'], home: [230, 620], homeRoom: 'Kolam Renang', desk: [190, 238], deskRoom: 'Kantor Utama', idle: 'Berenang santai', verb: 'membalas pelanggan', verbCap: 'Layani pelanggan', intro: 'Hai, Lina. Ada pelanggan yang perlu dibantu?' }
+];
+}
+
+def(id) {
+return this.defs().find((d) => d.id === id);
+}
+
+spots(kind) {
+const S = {
+meeting: [[452, 102], [502, 102], [552, 102], [452, 216], [502, 216], [552, 216], [610, 160], [430, 160]],
+pool: [[140, 600], [230, 640], [320, 600], [400, 650], [120, 660], [290, 665], [250, 570], [420, 585]],
+lounge: [[700, 340], [750, 340], [800, 340], [700, 442], [750, 442], [800, 442], [866, 404], [880, 360]],
+bil: [[628, 384], [500, 318], [500, 456], [430, 456]],
+pantry: [[690, 590], [630, 640], [750, 640], [690, 700]]
+};
+return S[kind];
+}
+
+intent(t) {
+t = t.toLowerCase();
+if (/laporan|status|progres|sedang apa|lagi apa/.test(t)) return 'report';
+if (/rapat|meeting|diskusi/.test(t)) return 'meeting';
+if (/renang|kolam/.test(t)) return 'pool';
+if (/bilyard|biliar|billiard/.test(t)) return 'bil';
+if (/kopi|ngopi|pantry|makan|minum/.test(t)) return 'pantry';
+if (/santai|istirahat|break|rehat/.test(t)) return 'lounge';
+return 'work';
+}
+
+short(t, n) {
+t = t.trim().replace(/\s+/g, ' ');
+return t.length > n ? t.slice(0, n - 1) + '…' : t;
+}
+
+setCam(patch) {
+this.setState((s) => ({ cam: Object.assign({}, s.cam, patch) }));
+}
+
+focus(id) {
+const a = this.state.ag[id];
+const z = this.state.cam.z;
+const k = Math.SQRT1_2;
+const ct = Math.cos((55 * Math.PI) / 180);
+const dx = a.x - 480;
+const dy = a.y - 370;
+const sx = (dx + dy) * k;
+const sy = (-dx + dy) * k * ct;
+this.setState({ cam: { x: -sx * z - 190, y: -sy * z + 36, z: z, anim: true } });
+}
+
+openChat(id) {
+this._moved = false;
+this.setState((s) => {
+const chats = Object.assign({}, s.chats);
+if (!chats[id]) chats[id] = [{ mine: false, text: this.def(id).intro }];
+return { panel: 'chat', sel: id, chats: chats, draft: '' };
+});
+this.focus(id);
+}
+
+zoomAt(cx, cy, factor, el) {
+const r = el.getBoundingClientRect();
+const px = cx - (r.left + r.width / 2);
+const py = cy - (r.top + r.height / 2);
+this.setState((s) => {
+const c = s.cam;
+const z2 = Math.min(2.4, Math.max(0.45, c.z * factor));
+const f = z2 / c.z;
+return { cam: { x: px - (px - c.x) * f, y: py - (py - c.y) * f, z: z2, anim: false } };
+});
+}
+
+zoomCenter(factor) {
+this.setState((s) => {
+const c = s.cam;
+const z2 = Math.min(2.4, Math.max(0.45, c.z * factor));
+const f = z2 / c.z;
+return { cam: { x: c.x * f, y: c.y * f, z: z2, anim: true } };
+});
+}
+
+progTick() {
+const s = this.state;
+const np = {};
+const done = [];
+this.defs().forEach((d) => {
+const a = s.ag[d.id];
+let p = s.prog[d.id] || 0;
+if (a.moving) { np[d.id] = p; return; }
+if (a.act === 'work' || a.act === 'meet') {
+p += 1.5 + Math.random() * 2.5;
+if (p >= 100) { done.push(d.id); p = 0; }
+} else p = 0;
+np[d.id] = p;
+});
+this.setState({ prog: np });
+done.forEach((id) => this.completeTask(id));
+}
+
+completeTask(id) {
+const bank = this.taskBank()[id];
+this._ri = this._ri || {};
+const i = (this._ri[id] || 0) % bank.length;
+this._ri[id] = i + 1;
+this.addResult(id, bank[i]);
+}
+
+outFor(id, e) {
+const sty = { h: ['14px', '700', '#fde68a', '0px', '12px'], p: ['13px', '400', '#dbe4f3', '0px', '5px'], b: ['13px', '400', '#dbe4f3', '14px', '3px'] };
+const mk = (arr) => arr.map((r) => ({ t: r[0] === 'b' ? '• ' + r[1] : r[1], fs: sty[r[0]][0], fw: sty[r[0]][1], col: sty[r[0]][2], pl: sty[r[0]][3], mt: sty[r[0]][4] }));
+if (id === 'dika') {
+const C = {
+'login.js': ["import { cekPassword, buatToken } from './auth.js';", '', 'export async function login(email, password) {', '  if (!email || !password) {', "    throw new Error('Email dan password wajib diisi');", '  }', '  const user = await db.user.cari({ email });', '  if (!user || !(await cekPassword(password, user.hash))) {', "    throw new Error('Email atau password salah');", '  }', '  return { token: buatToken(user.id), nama: user.nama };', '}', '', '// Tes: 24 lulus, 0 gagal'],
+'checkout.js': ['export function validasiCheckout(form) {', '  const galat = {};', "  if (!form.alamat.trim()) galat.alamat = 'Alamat tidak boleh kosong';", "  if (!/^\\d{10,13}$/.test(form.telepon)) galat.telepon = 'Nomor telepon tidak valid';", "  if (form.items.length === 0) galat.items = 'Keranjang masih kosong';", '  return { ok: Object.keys(galat).length === 0, galat };', '}', '', '// Perbaikan: input kosong kini ditolak'],
+'payment.js': ['const metode = {', '  transfer: (jumlah) => buatVirtualAccount(jumlah),', '  kartu: (jumlah) => tagihKartu(jumlah),', '  dompet: (jumlah) => potongSaldo(jumlah)', '};', '', 'export function bayar(jenis, jumlah) {', '  const proses = metode[jenis];', "  if (!proses) throw new Error('Metode tidak dikenal');", '  return proses(jumlah);', '}', '', '// Refactor: duplikasi kode berkurang 40%']
+};
+return { kind: 'code', code: (C[e.file] || C['login.js']).join('\n') };
+}
+if (id === 'maya') {
+if (/palet/.test(e.file)) return { kind: 'palette', sw: [{ c: '#F59E0B', n: 'Amber' }, { c: '#1B2742', n: 'Malam' }, { c: '#34D399', n: 'Hijau' }, { c: '#F472B6', n: 'Merah muda' }, { c: '#F8FAFC', n: 'Putih' }] };
+const w = e.title.split(' ');
+const h = Math.ceil(w.length / 2);
+return { kind: 'image', a: w.slice(0, h).join(' ').toUpperCase(), b: w.slice(h).join(' ').toUpperCase() };
+}
+if (id === 'tari') {
+const v = [42, 47, 51, 49, 56, 63];
+const n = ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'];
+return { kind: 'chart', bars: v.map((x, i) => ({ h: Math.round(x / 63 * 130) + 'px', v: x, n: n[i], bg: i === 5 ? '#fbbf24' : '#60a5fa' })) };
+}
+const D = {
+bima: [['h', 'Ringkasan'], ['p', e.sum], ['h', 'Keputusan'], ['b', 'Tugas dengan tenggat terdekat dikerjakan lebih dulu'], ['b', 'Raka dan Maya memperbaiki catatan revisi'], ['b', 'Review lanjutan hari Jumat pukul 15.00'], ['h', 'Langkah berikutnya'], ['p', 'Bima memantau progres dan melapor ke pemilik kantor.']],
+sari: [['h', e.title], ['p', e.sum], ['h', 'Temuan utama'], ['b', 'Permintaan naik di segmen usia 25-34'], ['b', 'Dua kompetitor belum punya fitur langganan'], ['b', 'Harga rata-rata pasar turun 5%'], ['h', 'Sumber'], ['b', 'Laporan industri 2026, hal. 12-18'], ['b', '3 artikel berita ekonomi'], ['b', 'Survei konsumen internal']],
+raka: [['h', e.title], ['p', e.sum], ['h', 'Isi'], ['p', 'Adegan 1, Masalah: pelanggan kewalahan mengurus tugas harian.'], ['p', 'Adegan 2, Solusi: tim AI bekerja bersama tanpa jeda.'], ['p', 'Adegan 3, Ajakan: coba gratis hari ini.']],
+joko: [['h', e.title], ['p', e.sum], ['h', 'Rencana'], ['b', 'Minggu 1: teaser di Instagram dan TikTok'], ['b', 'Minggu 2: peluncuran plus iklan berbayar'], ['b', 'Minggu 3: konten testimoni pelanggan'], ['h', 'Target'], ['p', 'Jangkauan 50.000 akun, konversi 2,5%.']],
+lina: [['h', e.title], ['p', e.sum], ['h', 'Contoh balasan'], ['p', '"Halo Kak, pesanan sudah dikirim dan tiba dalam 2 hari."'], ['p', '"Mohon maaf atas keterlambatannya, kami bantu cek sekarang."'], ['h', 'Eskalasi'], ['b', '1 keluhan pengiriman diteruskan ke Bima']]
+};
+return { kind: 'doc', lines: mk(D[id] || D.bima) };
+}
+
+taskBank() {
+return {
+bima: [['REVIEW', 'Review proposal klien', '3 catatan revisi dikirim ke Raka dan Maya', 'review-proposal.md'], ['RENCANA', 'Prioritas sprint minggu ini', '5 tugas dibagi ke 6 agen', 'sprint-plan.md'], ['LAPORAN', 'Ringkasan progres tim', '4 dari 6 target minggu ini tercapai', 'progres-mingguan.md']],
+sari: [['RISET', 'Laporan tren pasar', '12 sumber dirangkum, 3 tren utama', 'laporan-pasar.pdf'], ['RISET', 'Ringkasan 3 artikel kompetitor', 'Ada 2 celah yang belum digarap kompetitor', 'ringkasan-kompetitor.md'], ['CEK FAKTA', 'Verifikasi statistik laporan', '9 dari 10 angka cocok dengan sumber', 'cek-fakta.md']],
+dika: [['KODE', 'Fungsi login selesai', '24 tes lulus, 0 gagal', 'login.js'], ['BUG', 'Bug halaman checkout diperbaiki', 'Validasi form kini menolak input kosong', 'checkout.js'], ['KODE', 'Refactor modul pembayaran', 'Duplikasi kode berkurang 40%', 'payment.js']],
+maya: [['DESAIN', 'Poster promo akhir tahun', '3 varian siap dipilih', 'poster-promo.png'], ['BRAND', 'Palet warna brand', '5 warna, kontras lolos standar AA', 'palet-brand.svg'], ['UI', 'Layout landing page', 'Versi desktop dan HP selesai', 'landing-page.fig']],
+raka: [['TULISAN', 'Naskah video 60 detik', '142 kata, 3 adegan', 'naskah-video.docx'], ['TULISAN', 'Caption Instagram', '3 opsi caption plus 8 tagar', 'caption.txt'], ['EDIT', 'Artikel blog diedit', 'Panjang dipangkas 18%, alur lebih rapi', 'artikel-blog.md']],
+tari: [['DATA', 'Grafik tren penjualan', 'Naik 12% dibanding bulan lalu', 'tren-penjualan.xlsx'], ['DATA', 'Segmentasi pelanggan', '3 segmen, 1 paling bernilai', 'segmen.csv'], ['INSIGHT', 'Analisis konversi kampanye', 'Konversi tertinggi di hari Jumat', 'konversi.xlsx']],
+joko: [['STRATEGI', 'Jadwal posting 2 minggu', '14 posting di 3 platform', 'jadwal-sosmed.xlsx'], ['IKLAN', 'Analisis performa iklan', 'Iklan B menang dengan CTR 3,4%', 'analisis-iklan.pdf'], ['STRATEGI', 'Rencana promo akhir tahun', '3 skema diskon dengan estimasi dampak', 'promo-akhir-tahun.md']],
+lina: [['LAYANAN', 'Balasan pelanggan hari ini', '5 chat dibalas, 1 dieskalasi ke Bima', 'tiket-hari-ini.csv'], ['FAQ', 'Daftar FAQ diperbarui', '8 pertanyaan baru ditambahkan', 'faq.md'], ['LAYANAN', 'Rekap masukan pelanggan', '3 keluhan berulang soal pengiriman', 'masukan.md']]
+};
+}
+
+addResult(id, r) {
+this._rk = (this._rk || 0) + 1;
+const e = { k: this._rk, id: id, tag: r[0], title: r[1], sum: r[2], file: r[3], time: new Date().toTimeString().slice(0, 5) };
+const st = this.short('Selesai: ' + r[1], 30);
+this.setState((s) => ({
+results: [e].concat(s.results).slice(0, 30),
+ag: Object.assign({}, s.ag, { [id]: Object.assign({}, s.ag[id], { status: st }) })
+}));
+this.say(id, 'Selesai! ' + this.short(r[1], 30), 3200);
+}
+
+resultTick() {
+const s = this.state;
+const cand = this.defs().filter((d) => !s.ag[d.id].moving && (s.ag[d.id].act === 'work' || s.ag[d.id].act === 'meet'));
+if (!cand.length) return;
+const d = cand[Math.floor(Math.random() * cand.length)];
+const bank = this.taskBank()[d.id];
+this._ri = this._ri || {};
+const i = (this._ri[d.id] || 0) % bank.length;
+this._ri[d.id] = i + 1;
+this.addResult(d.id, bank[i]);
+}
+
+finishCmd(id, text) {
+const d = this.def(id);
+const tag = this.taskBank()[id][0][0];
+const slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 20) || 'hasil';
+this.addResult(id, [tag, d.verbCap + ': ' + this.short(text, 26), 'Selesai sesuai instruksimu', slug + '.md']);
+}
+
+workTick() {
+const s = this.state;
+const cand = this.defs().filter((d) => !s.ag[d.id].moving);
+if (!cand.length) return;
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const d = pick(cand);
+const act = s.ag[d.id].act;
+const W = {
+bima: ['Meninjau laporan mingguan', 'Membagi tugas sprint ke tim', 'Menyetujui draft proposal', 'Menyusun prioritas minggu ini'],
+sari: ['Mencari sumber untuk laporan pasar', 'Merangkum 3 artikel riset', 'Mengecek fakta statistik', 'Menyusun daftar referensi'],
+dika: ['Menulis fungsi login', 'Memperbaiki bug halaman checkout', 'Menjalankan tes unit: 24 lulus', 'Commit: perbaiki validasi form', 'Merapikan kode modul pembayaran'],
+maya: ['Merancang poster promo', 'Memilih palet warna brand', 'Mengekspor ikon aplikasi', 'Merapikan layout landing page'],
+raka: ['Menulis naskah video 60 detik', 'Merevisi caption Instagram', 'Mengedit artikel blog', 'Menyusun headline iklan'],
+tari: ['Membersihkan data penjualan', 'Membuat grafik tren bulanan', 'Menemukan pola pelanggan baru', 'Menghitung konversi kampanye'],
+joko: ['Menyusun jadwal posting sosmed', 'Menganalisis performa iklan', 'Merancang promo akhir tahun', 'Riset kompetitor'],
+lina: ['Membalas 5 chat pelanggan', 'Memperbarui daftar FAQ', 'Mengeskalasi keluhan ke Bima', 'Mencatat masukan pelanggan']
+};
+const M = ['Diskusi ide konten di ruang meeting', 'Mencatat poin rapat', 'Membahas jadwal rilis', 'Menentukan target minggu ini'];
+const Z = {
+bil: ['Main bilyard, skor sementara unggul', 'Mengincar bola terakhir'],
+pool: ['Berenang beberapa putaran', 'Mengambang santai di kolam'],
+coffee: ['Membuat kopi di pantry', 'Menyeruput kopi'],
+sit: ['Duduk santai sebentar', 'Mengobrol ringan'],
+lie: ['Rebahan, istirahat sebentar', 'Tidur ayam lima menit']
+};
+let line;
+let kind = 'rest';
+if (act === 'work') { line = pick(W[d.id]); kind = 'work'; }
+else if (act === 'meet') { line = pick(M); kind = 'work'; }
+else line = pick(Z[act] || Z.sit);
+if (kind === 'work') {
+const st = this.short(line, 30);
+this.setState((q) => ({ ag: Object.assign({}, q.ag, { [d.id]: Object.assign({}, q.ag[d.id], { status: st }) }) }));
+}
+}
+
+say(id, text, ms) {
+this.setState((s) => ({ bub: Object.assign({}, s.bub, { [id]: text }) }));
+this._timers.push(setTimeout(() => {
+if (this.state.bub[id] === text) this.setState((s) => ({ bub: Object.assign({}, s.bub, { [id]: '' }) }));
+}, ms));
+}
+
+chatter() {
+const s = this.state;
+const byRoom = {};
+this.defs().forEach((d) => {
+const a = s.ag[d.id];
+if (a.moving || s.bub[d.id]) return;
+const r = this.roomOf(a.x, a.y);
+(byRoom[r] = byRoom[r] || []).push(d);
+});
+const rooms = Object.keys(byRoom).filter((k) => byRoom[k].length >= 2);
+if (!rooms.length) return;
+const list = byRoom[rooms[Math.floor(Math.random() * rooms.length)]];
+const i = Math.floor(Math.random() * list.length);
+let j = Math.floor(Math.random() * (list.length - 1));
+if (j >= i) j++;
+const A = list[i];
+const B = list[j];
+const L = {
+work: ['{n}, drafnya sudah kamu cek?', '{n}, tolong review ini ya.', '{n}, datanya sudah siap?', 'Menurutmu ini oke, {n}?', '{n}, deadline-nya besok lho.'],
+meet: ['Ide kampanye minggu ini gimana, {n}?', '{n}, setuju dengan jadwalnya?', 'Kita bagi tugas dulu ya, {n}.', 'Poin ketiga perlu data, {n}.'],
+bil: ['Giliranmu, {n}!', '{n}, jago juga ya!', 'Awas meleset, {n}!'],
+pool: ['Airnya enak, {n}!', '{n}, ayo berenang!', 'Segar banget, {n}!'],
+coffee: ['Kopi dulu, {n}?', '{n}, mau kutraktir kopi?', 'Pantry wangi banget, {n}.'],
+sit: ['Capek ya, {n}?', '{n}, istirahat dulu yuk.', 'Santai dulu, {n}.'],
+lie: ['{n}, jangan bangunin aku.', 'Zzz... eh, {n}, jam berapa?', '{n}, lima menit lagi ya.']
+};
+const R = {
+work: ['Sudah, tinggal revisi kecil.', 'Siap, kukirim sebentar lagi.', 'Oke, kukerjakan sekarang.'],
+meet: ['Setuju, lanjut!', 'Boleh, aku siapkan datanya.', 'Noted, aku catat.'],
+bil: ['Hehe, lihat saja nanti.', 'Siap, yang kalah traktir kopi!', 'Tunggu, aku fokus dulu.'],
+pool: ['Ayo, byur!', 'Iya, segar banget!', 'Sebentar, lagi renang.'],
+coffee: ['Boleh, dua gula ya.', 'Mau dong!', 'Wah, makasih!'],
+sit: ['Iya, nyaman banget.', 'Yuk, lima menit.', 'Setuju.'],
+lie: ['Mmh... oke.', 'Jangan ribut dong.', 'Zzz...']
+};
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const actA = L[s.ag[A.id].act] ? s.ag[A.id].act : 'work';
+const actB = R[s.ag[B.id].act] ? s.ag[B.id].act : 'work';
+const lineA = pick(L[actA]).replace('{n}', B.name);
+const lineB = pick(R[actB]);
+this.say(A.id, lineA, 3300);
+this._timers.push(setTimeout(() => {
+if (!this.state.ag[B.id].moving) this.say(B.id, lineB, 3000);
+}, 1900));
+}
+
+actInfo(a) {
+const M = {
+walk: { cls: 'walk', lift: 0, cup: 0, cue: 0, z: 0, rip: 0 },
+work: { cls: 'sit typ', lift: 5, cup: 0, cue: 0, z: 0, rip: 0 },
+meet: { cls: 'sit gest', lift: 5, cup: 0, cue: 0, z: 0, rip: 0 },
+bil: { cls: 'bilp', lift: 0, cup: 0, cue: 1, z: 0, rip: 0 },
+pool: { cls: 'swim', lift: 0, cup: 0, cue: 0, z: 0, rip: 1 },
+sit: { cls: 'sit', lift: 12, cup: 0, cue: 0, z: 0, rip: 0 },
+lie: { cls: 'lie', lift: 16, cup: 0, cue: 0, z: 1, rip: 0 },
+coffee: { cls: 'sipc', lift: 0, cup: 1, cue: 0, z: 0, rip: 0 }
+};
+return M[a] || M.work;
+}
+
+rooms() {
+return [
+{ id: 'K', x0: 0, y0: 0, x1: 380, y1: 280 }, { id: 'M', x0: 380, y0: 0, x1: 660, y1: 280 }, { id: 'G', x0: 660, y0: 0, x1: 960, y1: 280 },
+{ id: 'W', x0: 0, y0: 280, x1: 380, y1: 480 }, { id: 'S', x0: 380, y0: 280, x1: 960, y1: 480 },
+{ id: 'P', x0: 0, y0: 480, x1: 600, y1: 740 }, { id: 'T', x0: 600, y0: 480, x1: 780, y1: 740 }, { id: 'V', x0: 780, y0: 480, x1: 960, y1: 740 }
+];
+}
+
+doors() {
+return [['K', 'M', 380, 145], ['M', 'G', 660, 145], ['K', 'W', 170, 280], ['M', 'S', 520, 280], ['G', 'S', 810, 280], ['W', 'S', 380, 385], ['W', 'P', 175, 480], ['S', 'P', 510, 480], ['S', 'T', 700, 480], ['S', 'V', 860, 480], ['P', 'T', 600, 605], ['T', 'V', 780, 605]];
+}
+
+roomOf(x, y) {
+const r = this.rooms().find((q) => x >= q.x0 && x < q.x1 && y >= q.y0 && y < q.y1);
+return r ? r.id : 'K';
+}
+
+route(x0, y0, x1, y1) {
+const a = this.roomOf(x0, y0);
+const b = this.roomOf(x1, y1);
+if (a === b) return [[x1, y1]];
+const D = this.doors();
+const q = [[a, []]];
+const seen = {};
+seen[a] = 1;
+while (q.length) {
+const cur = q.shift();
+if (cur[0] === b) return cur[1].concat([[x1, y1]]);
+D.forEach((d) => {
+let n = null;
+if (d[0] === cur[0]) n = d[1];
+else if (d[1] === cur[0]) n = d[0];
+if (n && !seen[n]) {
+seen[n] = 1;
+q.push([n, cur[1].concat([[d[2], d[3]]])]);
+}
+});
+}
+return [[x1, y1]];
+}
+
+walk(id, pts, act) {
+const tok = (this._tok[id] || 0) + 1;
+this._tok[id] = tok;
+const step = (i) => {
+if (this._tok[id] !== tok) return;
+if (i >= pts.length) {
+this.setState((s) => ({ ag: Object.assign({}, s.ag, { [id]: Object.assign({}, s.ag[id], { moving: false, act: act }) }) }));
+return;
+}
+const cur = this.state.ag[id];
+const p = pts[i];
+const dur = Math.max(0.15, Math.hypot(p[0] - cur.x, p[1] - cur.y) / 120);
+this.setState((s) => ({ ag: Object.assign({}, s.ag, { [id]: Object.assign({}, s.ag[id], { x: p[0], y: p[1], dur: dur, moving: true }) }) }));
+this._timers.push(setTimeout(() => step(i + 1), dur * 1000 + 40));
+};
+step(0);
+}
+
+sendText(text) {
+text = (text || '').trim();
+const id = this.state.sel;
+if (!id || !text) return;
+const d = this.def(id);
+const idx = this.defs().findIndex((x) => x.id === id);
+this.setState((s) => ({ draft: '', chats: Object.assign({}, s.chats, { [id]: (s.chats[id] || []).concat([{ mine: true, text: text }]) }) }));
+const kind = this.intent(text);
+const t1 = setTimeout(() => {
+let reply = '';
+let move = null;
+if (kind === 'report') {
+const st = this.state.ag[id];
+reply = 'Saat ini: ' + st.status + '. Posisi saya di ' + st.where + '.';
+} else if (kind === 'work') {
+const sh = this.short(text, 24);
+reply = 'Siap! Saya mulai ' + d.verb + ': "' + sh + '".';
+move = { x: d.desk[0], y: d.desk[1], status: this.short(d.verbCap + ': ' + sh, 30), where: d.deskRoom, act: 'work' };
+} else {
+const sp = this.spots(kind);
+const p = sp[idx % sp.length];
+const info = {
+meeting: ['Siap, saya ke Ruang Meeting sekarang.', 'Menuju rapat', 'Ruang Meeting'],
+pool: ['Asik, ke kolam renang dulu ya.', 'Berenang', 'Kolam Renang'],
+bil: ['Oke, main bilyard sebentar.', 'Main bilyard', 'Ruang Santai'],
+pantry: ['Ngopi dulu di pantry ya.', 'Ngopi', 'Pantry'],
+lounge: ['Oke, istirahat di ruang santai.', 'Istirahat', 'Ruang Santai']
+}[kind];
+reply = info[0];
+const li = idx % sp.length;
+const act = kind === 'meeting' ? 'meet' : kind === 'pool' ? 'pool' : kind === 'bil' ? 'bil' : kind === 'pantry' ? 'coffee' : (li >= 6 || li % 2 ? 'lie' : 'sit');
+move = { x: p[0], y: p[1], status: info[1], where: info[2], act: act };
+}
+this.setState((s) => ({ chats: Object.assign({}, s.chats, { [id]: (s.chats[id] || []).concat([{ mine: false, text: reply }]) }) }));
+this.say(id, reply, 3500);
+if (kind === 'work') this._timers.push(setTimeout(() => this.finishCmd(id, text), 9000));
+if (move) {
+const cur = this.state.ag[id];
+this.setState((s) => ({ ag: Object.assign({}, s.ag, { [id]: Object.assign({}, s.ag[id], { status: move.status, where: move.where }) }) }));
+this.walk(id, this.route(cur.x, cur.y, move.x, move.y), move.act);
+}
+}, 650);
+this._timers.push(t1);
+}
+
+renderVals() {
+const s = this.state;
+const c = s.cam;
+const defs = this.defs();
+const agents = defs.map((d) => {
+const st = s.ag[d.id];
+const ac = this.actInfo(st.moving ? 'walk' : st.act);
+return {
+id: d.id, name: d.name, role: d.role, shirt: d.shirt, hair: d.hair, skin: d.skin,
+tie: d.tie, gl: d.gl, hs: d.hs, be: d.be, cp: d.cp, bun: d.bun,
+x: st.x, y: st.y, status: st.status, where: st.where,
+shortStatus: this.short(st.status, 24),
+cls: ac.cls, lift: -ac.lift, pCup: ac.cup, pCue: ac.cue, zD: ac.z ? 'block' : 'none', ripD: ac.rip ? 'block' : 'none', dur: st.dur || 1, bub: s.bub[d.id] || '', bubD: s.bub[d.id] ? 'block' : 'none',
+ringOp: s.sel === d.id ? 1 : 0,
+skillList: d.skills.map((t) => ({ t: t })),
+pick: () => { if (this._moved) return; this.openChat(d.id); },
+chat: () => this.openChat(d.id)
+};
+});
+const sel = s.sel ? this.def(s.sel) : null;
+const selSt = s.sel ? s.ag[s.sel] : null;
+const msgs = s.sel ? (s.chats[s.sel] || []).slice().reverse().map((m) => ({
+text: m.text,
+just: m.mine ? 'flex-end' : 'flex-start',
+bg: m.mine ? '#fbbf24' : '#243350',
+fg: m.mine ? '#2b1a00' : '#e8edf7'
+})) : [];
+const dvId = s.dvAgent;
+const dvd = this.def(dvId);
+const dvs = s.ag[dvId];
+const dvWork = dvs.act === 'work' || dvs.act === 'meet';
+const dvBank = this.taskBank()[dvId];
+const dvNext = ((this._ri || {})[dvId] || 0) % dvBank.length;
+const dvPct = Math.round(s.prog[dvId] || 0);
+const dvMine = s.results.filter((x) => x.id === dvId);
+const dvList = dvMine.length ? dvMine : [{ k: -1, id: dvId, tag: dvBank[0][0], title: dvBank[0][1], sum: dvBank[0][2], file: dvBank[0][3], time: '--:--' }];
+const dvCur = dvList.find((x) => x.k === s.dvSel[dvId]) || dvList[0];
+const dvOut = this.outFor(dvId, dvCur);
+const dvv = {
+name: dvd.name, role: dvd.role, shirt: dvd.shirt, initial: dvd.name[0], status: dvs.status, where: dvs.where,
+skills: dvd.skills.map((x) => ({ t: x })),
+taskLabel: dvWork ? 'Sedang dikerjakan' : 'Sedang istirahat',
+task: dvWork ? dvBank[dvNext][1] : dvs.status,
+pctW: dvWork ? dvPct + '%' : '0%', pctTxt: dvWork ? dvPct + '%' : '-',
+steps: ['Riset', 'Kerjakan', 'Periksa', 'Kirim'].map((n, i) => {
+const dn = dvWork && dvPct >= (i + 1) * 25;
+const ac = dvWork && !dn && dvPct >= i * 25;
+return { n: n, bg: dn ? '#34d399' : ac ? '#fbbf24' : '#243350', fg: dn || ac ? '#0b1220' : '#9fb0cf' };
+}),
+doneCount: dvMine.length,
+outs: dvList.map((x) => ({ k: x.k, file: x.file, bg: x.k === dvCur.k ? '#fbbf24' : '#243350', fg: x.k === dvCur.k ? '#2b1a00' : '#e8edf7', pick: () => this.setState((q) => ({ dvSel: Object.assign({}, q.dvSel, { [dvId]: x.k }) })) })),
+sampleD: dvMine.length ? 'none' : 'block',
+curTitle: dvCur.title, curTag: dvCur.tag, curSum: dvCur.sum, curFile: dvCur.file, curTime: dvCur.time,
+isCode: dvOut.kind === 'code', isDoc: dvOut.kind === 'doc', isChart: dvOut.kind === 'chart', isImage: dvOut.kind === 'image', isPalette: dvOut.kind === 'palette',
+code: dvOut.code || '', lines: dvOut.lines || [], bars: dvOut.bars || [], sw: dvOut.sw || [], imgA: dvOut.a || '', imgB: dvOut.b || '',
+chat: () => { this.setState({ dv: false }); this.openChat(dvId); }
+};
+const dvAgents = this.defs().map((d) => {
+const w = s.ag[d.id].act === 'work' || s.ag[d.id].act === 'meet';
+return { id: d.id, name: d.name, role: d.role, shirt: d.shirt, initial: d.name[0], pctW: w ? Math.round(s.prog[d.id] || 0) + '%' : '0%', bg: d.id === dvId ? '#2f4270' : '#1e2b49', pick: () => this.setState({ dvAgent: d.id }) };
+});
+const chipTexts = ['Mulai kerja', 'Rapat di ruang meeting', 'Main bilyard', 'Ngopi di pantry', 'Berenang', 'Laporan status'];
+return {
+agents: agents,
+sceneT: 'translate(' + c.x + 'px, ' + c.y + 'px) scale(' + c.z + ') rotateX(55deg) rotateZ(-45deg) translate(-480px, -370px)',
+sceneTr: c.anim ? 'transform 0.6s ease' : 'none',
+panelOpen: s.panel !== 'closed',
+logVisible: s.panel === 'closed' && !s.dv,
+dvOpen: s.dv,
+dv: dvv,
+dvAgents: dvAgents,
+openDv: () => this.setState({ dv: true, panel: 'closed', sel: null }),
+closeDv: () => this.setState({ dv: false }),
+logOpen: s.logOpen,
+logCount: s.results.length,
+noRes: s.results.length === 0,
+toggleLog: () => this.setState((q) => ({ logOpen: !q.logOpen })),
+resItems: s.results.map((e) => {
+const d = this.def(e.id);
+const open = s.openRes === e.k;
+return {
+k: e.k, name: d.name, role: d.role, shirt: d.shirt, tag: e.tag, title: e.title, sum: e.sum, file: e.file, time: e.time,
+openD: open ? 'block' : 'none', arrow: open ? 'rotate(180deg)' : 'none',
+toggle: () => this.setState((q) => ({ openRes: q.openRes === e.k ? 0 : e.k }))
+};
+}),
+showList: s.panel === 'list',
+showChat: s.panel === 'chat' && !!sel,
+teamBtnBg: s.panel === 'closed' ? '#fbbf24' : '#fde68a',
+selName: sel ? sel.name : '',
+selRole: sel ? sel.role : '',
+selShirt: sel ? sel.shirt : '#fbbf24',
+selInitial: sel ? sel.name[0] : '',
+selStatus: selSt ? selSt.status : '',
+selWhere: selSt ? selSt.where : '',
+messages: msgs,
+draft: s.draft,
+chips: chipTexts.map((t) => ({ t: t, fn: () => this.sendText(t) })),
+togglePanel: () => this.setState((st) => ({ panel: st.panel === 'closed' ? 'list' : 'closed' })),
+closePanel: () => this.setState({ panel: 'closed', sel: null }),
+backToList: () => this.setState({ panel: 'list', sel: null }),
+onDraft: (e) => this.setState({ draft: e.target.value }),
+onKey: (e) => { if (e.key === 'Enter') this.sendText(this.state.draft); },
+send: () => this.sendText(this.state.draft),
+zoomIn: () => this.zoomCenter(1.25),
+zoomOut: () => this.zoomCenter(0.8),
+resetCam: () => this.setState({ cam: { x: 0, y: 0, z: 1, anim: true } }),
+onDown: (e) => {
+this._p.set(e.pointerId, { x: e.clientX, y: e.clientY });
+this._start = { x: e.clientX, y: e.clientY };
+if (this._p.size === 1) this._moved = false;
+if (this.state.cam.anim) this.setCam({ anim: false });
+},
+onMove: (e) => {
+const p = this._p;
+if (!p.has(e.pointerId)) return;
+const prev = p.get(e.pointerId);
+if (p.size === 1) {
+if (!this._moved && Math.hypot(e.clientX - this._start.x, e.clientY - this._start.y) < 5) return;
+if (!this._moved) {
+this._moved = true;
+try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+}
+const dx = e.clientX - prev.x;
+const dy = e.clientY - prev.y;
+p.set(e.pointerId, { x: e.clientX, y: e.clientY });
+this.setState((st) => ({ cam: { x: st.cam.x + dx, y: st.cam.y + dy, z: st.cam.z, anim: false } }));
+} else if (p.size === 2) {
+let other = null;
+p.forEach((v, k) => { if (k !== e.pointerId) other = v; });
+const d0 = Math.hypot(prev.x - other.x, prev.y - other.y);
+p.set(e.pointerId, { x: e.clientX, y: e.clientY });
+const d1 = Math.hypot(e.clientX - other.x, e.clientY - other.y);
+this._moved = true;
+if (d0 > 0) this.zoomAt((e.clientX + other.x) / 2, (e.clientY + other.y) / 2, d1 / d0, e.currentTarget);
+}
+},
+onUp: (e) => { this._p.delete(e.pointerId); },
+onWheel: (e) => {
+this.zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * 0.0015), e.currentTarget);
+}
+};
+}
+}
+</script>
+</body>
+</html>
