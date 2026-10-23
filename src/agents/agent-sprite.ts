@@ -497,10 +497,21 @@ export class AgentSpriteView {
     this.updateBadge(def.idle);
   }
 
+  private currentWorldX: number = 0;
+  private currentWorldY: number = 0;
+
   public updatePosition(worldX: number, worldY: number) {
+    this.currentWorldX = worldX;
+    this.currentWorldY = worldY;
     const pt = worldToScreen(worldX, worldY, 0);
     this.container.position.set(pt.x, pt.y);
-    this.container.zIndex = getDepth(worldX, worldY, 0);
+
+    let depth = getDepth(worldX, worldY, 0);
+    if (!this.isMoving && this.currentAct === 'bil') {
+      // Billiard cue stick extends forward onto the table surface; ensure player and cue render on top of the table edge
+      depth += 80;
+    }
+    this.container.zIndex = depth;
   }
 
   public updateBadge(status: string) {
@@ -552,6 +563,7 @@ export class AgentSpriteView {
   public setAct(act: ActivityType, isMoving: boolean) {
     this.currentAct = act;
     this.isMoving = isMoving;
+    this.updatePosition(this.currentWorldX, this.currentWorldY);
   }
 
   public setSelected(sel: boolean) {
@@ -577,7 +589,15 @@ export class AgentSpriteView {
     this.cupSprite.visible = false;
     this.cueSprite.visible = false;
     this.zzzSprite.visible = false;
-    this.rippleSprite.visible = false;
+
+    // Ground shadows vs water ripples
+    if (this.currentAct === 'pool' && !this.isMoving) {
+      this.shadowSprite.visible = false;
+      this.rippleSprite.visible = true;
+    } else {
+      this.shadowSprite.visible = true;
+      this.rippleSprite.visible = false;
+    }
 
     // Pop animation for bubble
     if (this.bubbleContainer.visible && this.bubbleContainer.scale.x < 1) {

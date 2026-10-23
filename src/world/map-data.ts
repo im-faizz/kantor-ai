@@ -37,9 +37,14 @@ export const WALLS: Box3D[] = [
   { x: 957, y: 280, w: 6, d: 200, h: 46, color: '#efe6d2' }, // Ruang Santai East
   { x: 957, y: 480, w: 6, d: 260, h: 46, color: '#efe6d2' }, // Ruang Server East
 
-  // Outer Front walls (low walls 12px height at front boundaries)
-  { x: -3, y: -3, w: 6, d: 746, h: 12, color: '#cbbfa5' }, // West front wall
-  { x: -3, y: 737, w: 966, d: 6, h: 12, color: '#cbbfa5' }, // South front wall
+  // Outer Front walls (low walls 12px height at front boundaries, segmented per room)
+  { x: -3, y: -3, w: 6, d: 283, h: 12, color: '#cbbfa5' }, // West wall: Kantor Utama
+  { x: -3, y: 280, w: 6, d: 200, h: 12, color: '#cbbfa5' }, // West wall: Ruang Kerja
+  { x: -3, y: 480, w: 6, d: 260, h: 12, color: '#cbbfa5' }, // West wall: Kolam Renang
+  { x: -3, y: 737, w: 300, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Kolam Renang west
+  { x: 297, y: 737, w: 303, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Kolam Renang east
+  { x: 600, y: 737, w: 180, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Pantry
+  { x: 780, y: 737, w: 183, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Ruang Server
 
   // Inner walls at y=280
   { x: 0, y: 277, w: 150, d: 6, h: 26, color: '#d9cdb4' },
@@ -177,8 +182,11 @@ export const FURNITURE: Box3D[] = [
   { x: 846, y: 384, w: 40, d: 40, h: 18, color: '#f97316', isRound: true },
   { x: 934, y: 336, w: 10, d: 90, h: 44, color: '#0f172a' },
 
-  // Kolam Renang: pool rim
-  { x: 36, y: 532, w: 420, d: 170, h: 8, color: '#e2e8f0' },
+  // Kolam Renang: Coping rim borders (hollow basin so pool water and swimmers are fully visible)
+  { x: 36, y: 532, w: 420, d: 10, h: 8, color: '#f1f5f9' }, // North rim
+  { x: 36, y: 542, w: 10, d: 150, h: 8, color: '#cbd5e1' }, // West rim
+  { x: 446, y: 542, w: 10, d: 150, h: 8, color: '#cbd5e1' }, // East rim
+  { x: 36, y: 692, w: 420, d: 10, h: 8, color: '#e2e8f0' }, // South rim
   // Pool ladder
   { x: 420, y: 524, w: 10, d: 14, h: 16, color: '#cbd5e1' },
   // Sun loungers
