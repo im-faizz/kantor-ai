@@ -169,8 +169,8 @@ export const FURNITURE: Box3D[] = [
   // Ruang Santai: sofas
   { x: 680, y: 316, w: 150, d: 8, h: 38, color: '#7c6bb0' },
   { x: 680, y: 324, w: 150, d: 34, h: 20, color: '#7c6bb0' },
-  { x: 680, y: 422, w: 150, d: 34, h: 20, color: '#7c6bb0' },
-  { x: 680, y: 456, w: 150, d: 8, h: 28, color: '#7c6bb0' },
+  { x: 720, y: 422, w: 120, d: 34, h: 20, color: '#7c6bb0' },
+  { x: 720, y: 456, w: 120, d: 8, h: 28, color: '#7c6bb0' },
 
   // Ruang Santai: coffee table, beanbag, TV
   { x: 710, y: 372, w: 90, d: 36, h: 12, color: '#a9824f', isRound: true },
