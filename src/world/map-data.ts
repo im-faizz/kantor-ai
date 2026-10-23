@@ -105,16 +105,16 @@ export const FURNITURE: Box3D[] = [
   { x: 344, y: 238, w: 18, d: 18, h: 12, color: '#7c2d12' },
   { x: 340, y: 234, w: 26, d: 26, h: 24, z: 12, color: '#22a05a', isRound: true },
 
-  // Ruang Meeting: round table
-  { x: 440, y: 120, w: 160, d: 80, h: 18, color: '#a9824f', isRound: true },
+  // Ruang Meeting: round table (centered at x=520, y=150, span x: 440..600, y: 110..190)
+  { x: 440, y: 110, w: 160, d: 80, h: 18, color: '#a9824f', isRound: true },
 
-  // Ruang Meeting: 6 chairs
-  { x: 442, y: 92, w: 20, d: 20, h: 10, color: '#6d5bb0' },
-  { x: 492, y: 92, w: 20, d: 20, h: 10, color: '#6d5bb0' },
-  { x: 542, y: 92, w: 20, d: 20, h: 10, color: '#6d5bb0' },
-  { x: 442, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
-  { x: 492, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
-  { x: 542, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  // Ruang Meeting: 6 chairs (3 North chairs at y=68 with open gap, 3 South chairs at y=206, aligned at x=450, 510, 570)
+  { x: 450, y: 68, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  { x: 510, y: 68, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  { x: 570, y: 68, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  { x: 450, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  { x: 510, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
+  { x: 570, y: 206, w: 20, d: 20, h: 10, color: '#6d5bb0' },
 
   // Ruang Meeting: whiteboard
   { x: 430, y: 6, w: 180, d: 5, h: 34, z: 10, color: '#f8fafc' },
@@ -161,8 +161,9 @@ export const FURNITURE: Box3D[] = [
   { x: 225, y: 374, w: 20, d: 20, h: 10, color: '#5b6b84' },
   { x: 313, y: 374, w: 20, d: 20, h: 10, color: '#5b6b84' },
 
-  // Ruang Kerja: cabinet
-  { x: 24, y: 440, w: 332, d: 16, h: 30, color: '#a9824f' },
+  // Ruang Kerja: credenzas / filing cabinets (placed against back wall with 76px wide clear aisle x=140..216 leading to pool door W-P)
+  { x: 24, y: 454, w: 116, d: 18, h: 20, color: '#a9824f' },
+  { x: 216, y: 454, w: 140, d: 18, h: 20, color: '#a9824f' },
 
   // Ruang Santai: billiard table
   { x: 408, y: 332, w: 190, d: 104, h: 22, color: '#15803d' },

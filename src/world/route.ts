@@ -36,10 +36,10 @@ export const NAV_GRAPH: Record<string, NavNode> = {
   'K_south_west': { id: 'K_south_west', x: 78, y: 255, room: 'K', neighbors: ['K_south_aisle'] },
   'K_south_door': { id: 'K_south_door', x: 170, y: 255, room: 'K', neighbors: ['K_south_aisle', 'door_K_W'] },
 
-  // === RUANG MEETING (corridors strictly avoiding round table 440..600, 120..200) ===
+  // === RUANG MEETING (corridors strictly avoiding round table 440..600, 110..190) ===
   'M_door_K': { id: 'M_door_K', x: 395, y: 145, room: 'M', neighbors: ['door_K_M', 'M_north_left', 'M_south_left'] },
-  'M_north_left': { id: 'M_north_left', x: 400, y: 65, room: 'M', neighbors: ['M_door_K', 'M_north_right'] },
-  'M_north_right': { id: 'M_north_right', x: 635, y: 65, room: 'M', neighbors: ['M_north_left', 'M_door_G'] },
+  'M_north_left': { id: 'M_north_left', x: 400, y: 45, room: 'M', neighbors: ['M_door_K', 'M_north_right'] },
+  'M_north_right': { id: 'M_north_right', x: 640, y: 45, room: 'M', neighbors: ['M_north_left', 'M_door_G'] },
   'M_door_G': { id: 'M_door_G', x: 645, y: 145, room: 'M', neighbors: ['door_M_G', 'M_north_right', 'M_south_right'] },
   'M_south_left': { id: 'M_south_left', x: 400, y: 240, room: 'M', neighbors: ['M_door_K', 'M_south_center'] },
   'M_south_center': { id: 'M_south_center', x: 520, y: 245, room: 'M', neighbors: ['M_south_left', 'M_south_right', 'door_M_S'] },
@@ -54,25 +54,28 @@ export const NAV_GRAPH: Record<string, NavNode> = {
 
   // === RUANG KERJA (clear aisles avoiding cubicle partitions and cabinets) ===
   'W_north_entry': { id: 'W_north_entry', x: 190, y: 305, room: 'W', neighbors: ['door_K_W', 'W_main_aisle'] },
-  'W_main_aisle': { id: 'W_main_aisle', x: 190, y: 415, room: 'W', neighbors: ['W_north_entry', 'W_door_south', 'W_west_aisle', 'W_east_aisle'] },
+  'W_main_aisle': { id: 'W_main_aisle', x: 175, y: 415, room: 'W', neighbors: ['W_north_entry', 'W_door_south', 'W_west_aisle', 'W_east_aisle'] },
   'W_west_aisle': { id: 'W_west_aisle', x: 59, y: 415, room: 'W', neighbors: ['W_main_aisle'] },
   'W_east_aisle': { id: 'W_east_aisle', x: 360, y: 415, room: 'W', neighbors: ['W_main_aisle', 'W_door_east'] },
   'W_door_east': { id: 'W_door_east', x: 365, y: 385, room: 'W', neighbors: ['W_east_aisle', 'door_W_S'] },
   'W_door_south': { id: 'W_door_south', x: 175, y: 460, room: 'W', neighbors: ['W_main_aisle', 'door_W_P'] },
 
-  // === RUANG SANTAI (aisles strictly avoiding billiard table 408..598, 332..436 and sofas) ===
+  // === RUANG SANTAI (aisles strictly avoiding billiard table and coffee table) ===
   'S_door_W': { id: 'S_door_W', x: 395, y: 385, room: 'S', neighbors: ['door_W_S', 'S_west_north', 'S_west_south'] },
   'S_west_north': { id: 'S_west_north', x: 395, y: 305, room: 'S', neighbors: ['S_door_W', 'S_mid_north'] },
   'S_west_south': { id: 'S_west_south', x: 395, y: 455, room: 'S', neighbors: ['S_door_W', 'S_mid_south'] },
   'S_mid_north': { id: 'S_mid_north', x: 520, y: 305, room: 'S', neighbors: ['S_west_north', 'door_M_S', 'S_east_north'] },
   'S_mid_south': { id: 'S_mid_south', x: 510, y: 455, room: 'S', neighbors: ['S_west_south', 'door_S_P', 'S_east_south'] },
   'S_east_north': { id: 'S_east_north', x: 635, y: 305, room: 'S', neighbors: ['S_mid_north', 'S_east_mid', 'S_door_G'] },
-  'S_east_mid': { id: 'S_east_mid', x: 635, y: 385, room: 'S', neighbors: ['S_east_north', 'S_east_south', 'S_lounge_center'] },
+  'S_east_mid': { id: 'S_east_mid', x: 635, y: 385, room: 'S', neighbors: ['S_east_north', 'S_east_south', 'S_lounge_west'] },
   'S_east_south': { id: 'S_east_south', x: 635, y: 455, room: 'S', neighbors: ['S_mid_south', 'S_east_mid', 'S_door_T'] },
-  'S_lounge_center': { id: 'S_lounge_center', x: 720, y: 385, room: 'S', neighbors: ['S_east_mid', 'S_door_G', 'S_door_T', 'S_far_east'] },
-  'S_door_G': { id: 'S_door_G', x: 810, y: 305, room: 'S', neighbors: ['door_G_S', 'S_east_north', 'S_lounge_center', 'S_far_east'] },
-  'S_door_T': { id: 'S_door_T', x: 700, y: 460, room: 'S', neighbors: ['door_S_T', 'S_east_south', 'S_lounge_center'] },
-  'S_far_east': { id: 'S_far_east', x: 860, y: 385, room: 'S', neighbors: ['S_door_G', 'S_lounge_center', 'S_door_V'] },
+  'S_lounge_west': { id: 'S_lounge_west', x: 660, y: 385, room: 'S', neighbors: ['S_east_mid', 'S_lounge_north', 'S_lounge_south', 'S_door_T'] },
+  'S_lounge_north': { id: 'S_lounge_north', x: 755, y: 360, room: 'S', neighbors: ['S_lounge_west', 'S_lounge_east', 'S_door_G'] },
+  'S_lounge_south': { id: 'S_lounge_south', x: 755, y: 418, room: 'S', neighbors: ['S_lounge_west', 'S_lounge_east', 'S_door_T'] },
+  'S_lounge_east': { id: 'S_lounge_east', x: 825, y: 385, room: 'S', neighbors: ['S_lounge_north', 'S_lounge_south', 'S_far_east', 'S_door_G'] },
+  'S_door_G': { id: 'S_door_G', x: 810, y: 305, room: 'S', neighbors: ['door_G_S', 'S_east_north', 'S_lounge_north', 'S_lounge_east', 'S_far_east'] },
+  'S_door_T': { id: 'S_door_T', x: 700, y: 460, room: 'S', neighbors: ['door_S_T', 'S_east_south', 'S_lounge_west', 'S_lounge_south'] },
+  'S_far_east': { id: 'S_far_east', x: 860, y: 385, room: 'S', neighbors: ['S_door_G', 'S_lounge_east', 'S_door_V'] },
   'S_door_V': { id: 'S_door_V', x: 860, y: 460, room: 'S', neighbors: ['door_S_V', 'S_far_east'] },
 
   // === KOLAM RENANG (deck walkways strictly outside pool 36..456, 532..702 and loungers 480..564) ===

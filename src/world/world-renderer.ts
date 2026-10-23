@@ -197,14 +197,17 @@ export class WorldRenderer {
       if (item.isRound) {
         const g = this.createBoxGraphic(item);
         if (item.w === 160) {
-          // Ruang Meeting large round table: depth -343 ensures all 3 North chairs (-350 to -450)
-          // sit behind the table, and all 3 South chairs (-236 to -336) sit in front
-          g.zIndex = -343;
+          // Ruang Meeting large round table: depth -375 ensures all 3 North chairs (-385 to -505)
+          // sit behind the table, and all 3 South chairs (-251 to -371) sit in front
+          g.zIndex = -375;
         } else if (item.w === 72) {
           // Pantry round dining table: depth set to center-front
           g.zIndex = getDepth(item.x + item.w / 2, item.y + item.d * 0.55, item.z || 0);
+        } else if (item.w === 90 && item.d === 36) {
+          // Ruang Santai coffee table: depth at center
+          g.zIndex = getDepth(item.x + item.w / 2, item.y + item.d / 2, item.z || 0);
         } else {
-          // Plant pots and other round decor
+          // Plant pots, beanbag, umbrella and round decor
           g.zIndex = getDepth(item.x + item.w / 2, item.y + item.d, item.z || 0);
         }
         this.objectsContainer.addChild(g);
@@ -244,32 +247,53 @@ export class WorldRenderer {
     const westColor = darkenColor(box.color, 0.40);
 
     if (box.isRound) {
-      // Cylinder / round pedestal
+      // True 3D isometric cylinder / oval pedestal
       const centerX = box.x + box.w / 2;
       const centerY = box.y + box.d / 2;
-      const rx = box.w / 2;
-      const ry = (box.w / 2) * COS_55;
+      const radiusX = box.w / 2;
+      const radiusY = box.d / 2;
 
-      const baseCenter = worldToScreen(centerX, centerY, zBase);
-      const topCenter = worldToScreen(centerX, centerY, zTop);
+      const N = 32;
+      const topPts: { x: number; y: number }[] = [];
+      const basePts: { x: number; y: number }[] = [];
 
-      // Curved side hull
-      if (box.h > 0) {
-        g.poly([
-          topCenter.x - rx, topCenter.y,
-          topCenter.x + rx, topCenter.y,
-          baseCenter.x + rx, baseCenter.y,
-          baseCenter.x - rx, baseCenter.y
-        ]);
-        g.fill({ color: southColor });
-
-        // Bottom curved rim
-        g.ellipse(baseCenter.x, baseCenter.y, rx, ry);
-        g.fill({ color: westColor });
+      for (let i = 0; i < N; i++) {
+        const theta = (i / N) * 2 * Math.PI;
+        const wx = centerX + radiusX * Math.cos(theta);
+        const wy = centerY + radiusY * Math.sin(theta);
+        topPts.push(worldToScreen(wx, wy, zTop));
+        basePts.push(worldToScreen(wx, wy, zBase));
       }
 
-      // Top ellipse
-      g.ellipse(topCenter.x, topCenter.y, rx, ry);
+      // Draw visible front-facing curved hull quads
+      if (box.h > 0) {
+        for (let i = 0; i < N; i++) {
+          const next = (i + 1) % N;
+          const midTheta = ((i + 0.5) / N) * 2 * Math.PI;
+          // Dot product with camera vector (-1, +1): -cos(theta) + sin(theta)
+          const viewDot = -Math.cos(midTheta) + Math.sin(midTheta);
+          if (viewDot >= -0.05) {
+            const westWeight = Math.max(0, -Math.cos(midTheta));
+            const southWeight = Math.max(0, Math.sin(midTheta));
+            const shadeColor = westWeight > southWeight ? westColor : southColor;
+
+            g.poly([
+              topPts[i].x, topPts[i].y,
+              topPts[next].x, topPts[next].y,
+              basePts[next].x, basePts[next].y,
+              basePts[i].x, basePts[i].y
+            ]);
+            g.fill({ color: shadeColor });
+          }
+        }
+      }
+
+      // Draw top ellipse polygon
+      const topPolyCoords: number[] = [];
+      for (let i = 0; i < N; i++) {
+        topPolyCoords.push(topPts[i].x, topPts[i].y);
+      }
+      g.poly(topPolyCoords);
       g.fill({ color: baseColor });
       g.stroke({ color: darkenColor(box.color, 0.15), width: 1 });
 
@@ -294,6 +318,29 @@ export class WorldRenderer {
     // 2. South Face (+Y front-right side): b3 -> b2 -> t2 -> t3
     g.poly([b3.x, b3.y, b2.x, b2.y, t2.x, t2.y, t3.x, t3.y]);
     g.fill({ color: southColor });
+
+    // Filing cabinet / credenza detail in Ruang Kerja
+    if (box.color === '#a9824f' && box.h === 20 && box.d === 18) {
+      // Horizontal drawer divider line
+      const divX1 = b3.x + (t3.x - b3.x) * 0.5;
+      const divY1 = b3.y + (t3.y - b3.y) * 0.5;
+      const divX2 = b2.x + (t2.x - b2.x) * 0.5;
+      const divY2 = b2.y + (t2.y - b2.y) * 0.5;
+      g.moveTo(divX1, divY1);
+      g.lineTo(divX2, divY2);
+      g.stroke({ color: darkenColor(box.color, 0.45), width: 1.5 });
+
+      // Metallic handles
+      const h1x = divX1 + (divX2 - divX1) * 0.3;
+      const h1y = divY1 + (divY2 - divY1) * 0.3;
+      const h2x = divX1 + (divX2 - divX1) * 0.7;
+      const h2y = divY1 + (divY2 - divY1) * 0.7;
+      g.circle(h1x, h1y - 3, 1.8);
+      g.circle(h1x, h1y + 3, 1.8);
+      g.circle(h2x, h2y - 3, 1.8);
+      g.circle(h2x, h2y + 3, 1.8);
+      g.fill({ color: 0xe2e8f0 });
+    }
 
     // 3. Top Face (+Z face): t0 -> t1 -> t2 -> t3
     g.poly([t0.x, t0.y, t1.x, t1.y, t2.x, t2.y, t3.x, t3.y]);

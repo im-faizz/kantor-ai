@@ -131,7 +131,7 @@ export const AGENT_DEFS: AgentDef[] = [
     cp: 1,
     bun: 0,
     skills: ['Copywriting', 'Naskah', 'Editing'],
-    home: [452, 104],
+    home: [460, 78],
     homeRoom: 'Ruang Meeting',
     desk: [59, 384],
     deskRoom: 'Ruang Kerja',
@@ -154,7 +154,7 @@ export const AGENT_DEFS: AgentDef[] = [
     cp: 0,
     bun: 1,
     skills: ['Spreadsheet', 'Grafik', 'Insight'],
-    home: [552, 104],
+    home: [580, 78],
     homeRoom: 'Ruang Meeting',
     desk: [235, 384],
     deskRoom: 'Ruang Kerja',
@@ -235,14 +235,14 @@ export const INITIAL_PROGRESS: Record<string, number> = {
 
 export const ACTIVITY_SPOTS: Record<string, [number, number][]> = {
   meeting: [
-    [452, 102],
-    [502, 102],
-    [552, 102],
-    [452, 216],
-    [502, 216],
-    [552, 216],
-    [610, 160],
-    [430, 160]
+    [460, 78],
+    [520, 78],
+    [580, 78],
+    [460, 216],
+    [520, 216],
+    [580, 216],
+    [615, 150],
+    [425, 150]
   ],
   pool: [
     [140, 600],
