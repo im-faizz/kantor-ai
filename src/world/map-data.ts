@@ -1,6 +1,9 @@
 import { RoomDef, DoorDef, Box3D } from './types';
+import { WORLD_SCALE } from './iso';
 
-export const ROOMS: RoomDef[] = [
+const s = (v: number) => Math.round(v * WORLD_SCALE);
+
+const RAW_ROOMS: RoomDef[] = [
   { id: 'K', name: 'Kantor Utama', x0: 0, y0: 0, x1: 380, y1: 280, floorColor: '#c7d4e6' },
   { id: 'M', name: 'Ruang Meeting', x0: 380, y0: 0, x1: 660, y1: 280, floorColor: '#d7cde8' },
   { id: 'G', name: 'Ruang Manager', x0: 660, y0: 0, x1: 960, y1: 280, floorColor: '#e6d1b8' },
@@ -11,7 +14,7 @@ export const ROOMS: RoomDef[] = [
   { id: 'V', name: 'Ruang Server', x0: 780, y0: 480, x1: 960, y1: 740, floorColor: '#a9b6c4' }
 ];
 
-export const DOORS: DoorDef[] = [
+const RAW_DOORS: DoorDef[] = [
   ['K', 'M', 380, 145],
   ['M', 'G', 660, 145],
   ['K', 'W', 170, 280],
@@ -26,7 +29,7 @@ export const DOORS: DoorDef[] = [
   ['T', 'V', 780, 605]
 ];
 
-export const WALLS: Box3D[] = [
+const RAW_WALLS: Box3D[] = [
   // Outer North walls (segmented by room so each room's wall is properly behind that room's furniture)
   { x: -3, y: -3, w: 383, d: 6, h: 46, color: '#efe6d2' }, // Kantor Utama North
   { x: 380, y: -3, w: 280, d: 6, h: 46, color: '#efe6d2' }, // Ruang Meeting North
@@ -76,7 +79,7 @@ export const WALLS: Box3D[] = [
   { x: 777, y: 630, w: 6, d: 110, h: 26, color: '#d9cdb4' }
 ];
 
-export const FURNITURE: Box3D[] = [
+const RAW_FURNITURE: Box3D[] = [
   // Kantor Utama: 6 desks
   { x: 36, y: 64, w: 84, d: 44, h: 16, color: '#b08a58' },
   { x: 148, y: 64, w: 84, d: 44, h: 16, color: '#b08a58' },
@@ -215,7 +218,7 @@ export const FURNITURE: Box3D[] = [
   { x: 800, y: 660, w: 132, d: 40, h: 4, color: '#38bdf8' }
 ];
 
-export const ROOM_LABELS: { name: string; x: number; y: number }[] = [
+const RAW_ROOM_LABELS: { name: string; x: number; y: number }[] = [
   { name: 'Kantor Utama', x: 190, y: 24 },
   { name: 'Ruang Meeting', x: 520, y: 24 },
   { name: 'Ruang Manager', x: 810, y: 24 },
@@ -225,3 +228,40 @@ export const ROOM_LABELS: { name: string; x: number; y: number }[] = [
   { name: 'Pantry', x: 690, y: 500 },
   { name: 'Ruang Server', x: 870, y: 500 }
 ];
+
+export const ROOMS: RoomDef[] = RAW_ROOMS.map((r) => ({
+  ...r,
+  x0: s(r.x0),
+  y0: s(r.y0),
+  x1: s(r.x1),
+  y1: s(r.y1)
+}));
+
+export const DOORS: DoorDef[] = RAW_DOORS.map((d) => [
+  d[0],
+  d[1],
+  s(d[2]),
+  s(d[3])
+]);
+
+export const WALLS: Box3D[] = RAW_WALLS.map((w) => ({
+  ...w,
+  x: s(w.x),
+  y: s(w.y),
+  w: s(w.w),
+  d: s(w.d)
+}));
+
+export const FURNITURE: Box3D[] = RAW_FURNITURE.map((f) => ({
+  ...f,
+  x: s(f.x),
+  y: s(f.y),
+  w: s(f.w),
+  d: s(f.d)
+}));
+
+export const ROOM_LABELS: { name: string; x: number; y: number }[] = RAW_ROOM_LABELS.map((l) => ({
+  ...l,
+  x: s(l.x),
+  y: s(l.y)
+}));

@@ -1,4 +1,4 @@
-import { worldToScreen, Point2D } from './iso';
+import { worldToScreen, Point2D, WORLD_SCALE } from './iso';
 
 export interface CameraOptions {
   viewportWidth: number;
@@ -162,8 +162,8 @@ export class CameraController {
   }
 
   private clamp() {
-    const maxBoundX = this.viewportWidth * 0.6 + 600 * this.z;
-    const maxBoundY = this.viewportHeight * 0.6 + 450 * this.z;
+    const maxBoundX = this.viewportWidth * 0.6 + 600 * WORLD_SCALE * this.z;
+    const maxBoundY = this.viewportHeight * 0.6 + 450 * WORLD_SCALE * this.z;
 
     this.x = Math.max(-maxBoundX, Math.min(maxBoundX, this.x));
     this.y = Math.max(-maxBoundY, Math.min(maxBoundY, this.y));

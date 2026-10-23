@@ -1,4 +1,5 @@
 import { AGENT_DEFS, AgentDef, ActivityType, INITIAL_ACTIVITIES, INITIAL_PROGRESS } from '../data/agents';
+import { WORLD_SCALE } from '../world/iso';
 import { TASK_BANK, WORK_RANDOM_LINES, MEETING_RANDOM_LINES, REST_RANDOM_LINES } from '../data/tasks';
 import { CHATTER_INITIATIVE, CHATTER_RESPONSE } from '../data/dialogs';
 import { AgentSpriteView, createAgentTextures } from './agent-sprite';
@@ -142,7 +143,7 @@ export class AgentManager {
 
       const p = waypoints[stepIdx];
       const dist = Math.hypot(p[0] - state.x, p[1] - state.y);
-      const speed = 120; // 120 units per second as specified
+      const speed = 120 * WORLD_SCALE; // 120 * WORLD_SCALE units per second
       const durSec = Math.max(0.15, dist / speed);
 
       state.moving = true;

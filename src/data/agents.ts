@@ -1,3 +1,5 @@
+import { WORLD_SCALE } from '../world/iso';
+
 export interface AgentDef {
   id: string;
   name: string;
@@ -24,7 +26,7 @@ export interface AgentDef {
 
 export type ActivityType = 'work' | 'meet' | 'bil' | 'pool' | 'coffee' | 'sit' | 'lie' | 'walk';
 
-export const AGENT_DEFS: AgentDef[] = [
+const RAW_AGENT_DEFS: AgentDef[] = [
   {
     id: 'bima',
     name: 'Bima',
@@ -211,6 +213,12 @@ export const AGENT_DEFS: AgentDef[] = [
   }
 ];
 
+export const AGENT_DEFS: AgentDef[] = RAW_AGENT_DEFS.map((a) => ({
+  ...a,
+  home: [Math.round(a.home[0] * WORLD_SCALE), Math.round(a.home[1] * WORLD_SCALE)],
+  desk: [Math.round(a.desk[0] * WORLD_SCALE), Math.round(a.desk[1] * WORLD_SCALE)]
+}));
+
 export const INITIAL_ACTIVITIES: Record<string, ActivityType> = {
   bima: 'work',
   sari: 'work',
@@ -233,7 +241,7 @@ export const INITIAL_PROGRESS: Record<string, number> = {
   lina: 0
 };
 
-export const ACTIVITY_SPOTS: Record<string, [number, number][]> = {
+const RAW_ACTIVITY_SPOTS: Record<string, [number, number][]> = {
   meeting: [
     [460, 78],
     [520, 78],
@@ -277,6 +285,13 @@ export const ACTIVITY_SPOTS: Record<string, [number, number][]> = {
     [690, 700]
   ]
 };
+
+export const ACTIVITY_SPOTS: Record<string, [number, number][]> = Object.fromEntries(
+  Object.entries(RAW_ACTIVITY_SPOTS).map(([k, spots]) => [
+    k,
+    spots.map((pt) => [Math.round(pt[0] * WORLD_SCALE), Math.round(pt[1] * WORLD_SCALE)])
+  ])
+);
 
 export function getAgentDef(id: string): AgentDef {
   const d = AGENT_DEFS.find((a) => a.id === id);

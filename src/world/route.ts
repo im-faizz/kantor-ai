@@ -1,4 +1,5 @@
 import { ROOMS } from './map-data';
+import { WORLD_SCALE } from './iso';
 
 export interface NavNode {
   id: string;
@@ -12,7 +13,7 @@ export interface NavNode {
  * Complete navigation graph ensuring characters walk along clear aisles
  * and never clip through furniture, walls, or the swimming pool basin.
  */
-export const NAV_GRAPH: Record<string, NavNode> = {
+const RAW_NAV_GRAPH: Record<string, NavNode> = {
   // === DOORS (inter-room thresholds) ===
   'door_K_M': { id: 'door_K_M', x: 380, y: 145, room: 'K', neighbors: ['K_east_aisle', 'M_door_K'] },
   'door_M_G': { id: 'door_M_G', x: 660, y: 145, room: 'M', neighbors: ['M_door_G', 'G_entry'] },
@@ -100,6 +101,17 @@ export const NAV_GRAPH: Record<string, NavNode> = {
   'V_main_aisle': { id: 'V_main_aisle', x: 860, y: 635, room: 'V', neighbors: ['V_west_door'] }
 };
 
+export const NAV_GRAPH: Record<string, NavNode> = Object.fromEntries(
+  Object.entries(RAW_NAV_GRAPH).map(([k, node]) => [
+    k,
+    {
+      ...node,
+      x: Math.round(node.x * WORLD_SCALE),
+      y: Math.round(node.y * WORLD_SCALE)
+    }
+  ])
+);
+
 export function getRoomOf(x: number, y: number): string {
   const r = ROOMS.find((q) => x >= q.x0 && x < q.x1 && y >= q.y0 && y < q.y1);
   return r ? r.id : 'K';
@@ -113,7 +125,12 @@ export function getRoomDef(roomId: string) {
  * Checks if a point is within the swimming pool water basin.
  */
 export function isInsidePool(x: number, y: number): boolean {
-  return x >= 40 && x <= 452 && y >= 536 && y <= 698;
+  return (
+    x >= Math.round(40 * WORLD_SCALE) &&
+    x <= Math.round(452 * WORLD_SCALE) &&
+    y >= Math.round(536 * WORLD_SCALE) &&
+    y <= Math.round(698 * WORLD_SCALE)
+  );
 }
 
 /**

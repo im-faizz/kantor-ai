@@ -1,6 +1,6 @@
 import { Container, Graphics, Text, TextStyle } from 'pixi.js';
 import { ROOMS, WALLS, FURNITURE, ROOM_LABELS } from './map-data';
-import { worldToScreen, getDepth, darkenColor, parseHexColor, COS_55 } from './iso';
+import { worldToScreen, getDepth, darkenColor, parseHexColor, COS_55, WORLD_SCALE } from './iso';
 import { Box3D } from './types';
 
 export class WorldRenderer {
@@ -63,10 +63,10 @@ export class WorldRenderer {
     if (!this.poolWaterGraphic) return;
     this.poolWaterGraphic.clear();
 
-    const x0 = 46;
-    const y0 = 542;
-    const x1 = 446;
-    const y1 = 692;
+    const x0 = Math.round(46 * WORLD_SCALE);
+    const y0 = Math.round(542 * WORLD_SCALE);
+    const x1 = Math.round(446 * WORLD_SCALE);
+    const y1 = Math.round(692 * WORLD_SCALE);
     const zBase = 0;
     const zWater = 5.5;
 
@@ -93,14 +93,14 @@ export class WorldRenderer {
     this.poolWaterGraphic.fill({ color: 0x0c4a6e, alpha: 0.55 });
 
     // 4. Crisp white swimming lane divider lines
-    const l1_start = worldToScreen(x0 + 10, 590, zWater + 0.2);
-    const l1_end = worldToScreen(x1 - 10, 590, zWater + 0.2);
+    const l1_start = worldToScreen(x0 + 10, Math.round(590 * WORLD_SCALE), zWater + 0.2);
+    const l1_end = worldToScreen(x1 - 10, Math.round(590 * WORLD_SCALE), zWater + 0.2);
     this.poolWaterGraphic.moveTo(l1_start.x, l1_start.y);
     this.poolWaterGraphic.lineTo(l1_end.x, l1_end.y);
     this.poolWaterGraphic.stroke({ color: 0xffffff, alpha: 0.65, width: 2 });
 
-    const l2_start = worldToScreen(x0 + 10, 642, zWater + 0.2);
-    const l2_end = worldToScreen(x1 - 10, 642, zWater + 0.2);
+    const l2_start = worldToScreen(x0 + 10, Math.round(642 * WORLD_SCALE), zWater + 0.2);
+    const l2_end = worldToScreen(x1 - 10, Math.round(642 * WORLD_SCALE), zWater + 0.2);
     this.poolWaterGraphic.moveTo(l2_start.x, l2_start.y);
     this.poolWaterGraphic.lineTo(l2_end.x, l2_end.y);
     this.poolWaterGraphic.stroke({ color: 0xffffff, alpha: 0.65, width: 2 });
@@ -111,22 +111,22 @@ export class WorldRenderer {
     const w3 = Math.sin(time * 2.8 + 1) * 3.5;
 
     // Lane 1 shimmer
-    const s1_a = worldToScreen(x0 + 40, 565 + w1, zWater + 0.3);
-    const s1_b = worldToScreen(x0 + 170, 565 + w1, zWater + 0.3);
+    const s1_a = worldToScreen(x0 + 40, Math.round(565 * WORLD_SCALE) + w1, zWater + 0.3);
+    const s1_b = worldToScreen(x0 + 170, Math.round(565 * WORLD_SCALE) + w1, zWater + 0.3);
     this.poolWaterGraphic.moveTo(s1_a.x, s1_a.y);
     this.poolWaterGraphic.lineTo(s1_b.x, s1_b.y);
     this.poolWaterGraphic.stroke({ color: 0xa5f3fc, alpha: 0.75, width: 1.8 });
 
     // Lane 2 shimmer
-    const s2_a = worldToScreen(x0 + 200, 615 + w2, zWater + 0.3);
-    const s2_b = worldToScreen(x0 + 350, 615 + w2, zWater + 0.3);
+    const s2_a = worldToScreen(x0 + 200, Math.round(615 * WORLD_SCALE) + w2, zWater + 0.3);
+    const s2_b = worldToScreen(x0 + 350, Math.round(615 * WORLD_SCALE) + w2, zWater + 0.3);
     this.poolWaterGraphic.moveTo(s2_a.x, s2_a.y);
     this.poolWaterGraphic.lineTo(s2_b.x, s2_b.y);
     this.poolWaterGraphic.stroke({ color: 0xa5f3fc, alpha: 0.75, width: 1.8 });
 
     // Lane 3 shimmer
-    const s3_a = worldToScreen(x0 + 80, 668 + w3, zWater + 0.3);
-    const s3_b = worldToScreen(x0 + 260, 668 + w3, zWater + 0.3);
+    const s3_a = worldToScreen(x0 + 80, Math.round(668 * WORLD_SCALE) + w3, zWater + 0.3);
+    const s3_b = worldToScreen(x0 + 260, Math.round(668 * WORLD_SCALE) + w3, zWater + 0.3);
     this.poolWaterGraphic.moveTo(s3_a.x, s3_a.y);
     this.poolWaterGraphic.lineTo(s3_b.x, s3_b.y);
     this.poolWaterGraphic.stroke({ color: 0xa5f3fc, alpha: 0.75, width: 1.8 });
@@ -175,14 +175,14 @@ export class WorldRenderer {
     // so they never incorrectly overlap ("nimpa") interior rooms, furniture, or characters.
     for (const wall of WALLS) {
       const isNorthBackWall = wall.y <= 0 && wall.h === 46;
-      const isEastBackWall = wall.x >= 950 && wall.h === 46;
+      const isEastBackWall = wall.x >= Math.round(950 * WORLD_SCALE) && wall.h === 46;
 
       if (isNorthBackWall || isEastBackWall) {
         const g = this.createBoxGraphic(wall);
         this.backWallsContainer.addChild(g);
       } else {
         // Front walls and inner partition walls are segmented and sorted by local depth
-        const segments = this.segmentBox(wall, 48);
+        const segments = this.segmentBox(wall, Math.round(48 * WORLD_SCALE));
         for (const seg of segments) {
           const g = this.createBoxGraphic(seg);
           const depth = getDepth(seg.x + seg.w / 2, seg.y + seg.d, seg.z || 0);
@@ -196,14 +196,13 @@ export class WorldRenderer {
     for (const item of FURNITURE) {
       if (item.isRound) {
         const g = this.createBoxGraphic(item);
-        if (item.w === 160) {
-          // Ruang Meeting large round table: depth -375 ensures all 3 North chairs (-385 to -505)
-          // sit behind the table, and all 3 South chairs (-251 to -371) sit in front
-          g.zIndex = -375;
-        } else if (item.w === 72) {
+        if (item.w === Math.round(160 * WORLD_SCALE)) {
+          // Ruang Meeting large round table: depth -375 * WORLD_SCALE
+          g.zIndex = Math.round(-375 * WORLD_SCALE);
+        } else if (item.w === Math.round(72 * WORLD_SCALE)) {
           // Pantry round dining table: depth set to center-front
           g.zIndex = getDepth(item.x + item.w / 2, item.y + item.d * 0.55, item.z || 0);
-        } else if (item.w === 90 && item.d === 36) {
+        } else if (item.w === Math.round(90 * WORLD_SCALE) && item.d === Math.round(36 * WORLD_SCALE)) {
           // Ruang Santai coffee table: depth at center
           g.zIndex = getDepth(item.x + item.w / 2, item.y + item.d / 2, item.z || 0);
         } else {
@@ -212,7 +211,7 @@ export class WorldRenderer {
         }
         this.objectsContainer.addChild(g);
       } else {
-        const isChair = item.w === 20 && item.d === 20 && item.h === 10;
+        const isChair = item.w === Math.round(20 * WORLD_SCALE) && item.d === Math.round(20 * WORLD_SCALE) && item.h === 10;
         if (isChair) {
           const g = this.createBoxGraphic(item);
           // Subtract 4 so characters sitting on the chair always render ON TOP of the chair seat
@@ -220,7 +219,7 @@ export class WorldRenderer {
           this.objectsContainer.addChild(g);
         } else {
           // Subdivide wide furniture (billiard table, desks, sofas, cabinets)
-          const segments = this.segmentBox(item, 48);
+          const segments = this.segmentBox(item, Math.round(48 * WORLD_SCALE));
           for (const seg of segments) {
             const g = this.createBoxGraphic(seg);
             const depth = getDepth(seg.x + seg.w / 2, seg.y + seg.d, seg.z || 0);
@@ -320,7 +319,7 @@ export class WorldRenderer {
     g.fill({ color: southColor });
 
     // Filing cabinet / credenza detail in Ruang Kerja
-    if (box.color === '#a9824f' && box.h === 20 && box.d === 18) {
+    if (box.color === '#a9824f' && box.h === 20 && Math.round(box.d) === Math.round(18 * WORLD_SCALE)) {
       // Horizontal drawer divider line
       const divX1 = b3.x + (t3.x - b3.x) * 0.5;
       const divY1 = b3.y + (t3.y - b3.y) * 0.5;

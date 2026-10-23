@@ -3,10 +3,11 @@ export const COS_55 = Math.cos(RAD_55); // ≈ 0.573576436351046
 export const SIN_55 = Math.sin(RAD_55); // ≈ 0.8191520442889918
 export const SQRT1_2 = Math.SQRT1_2; // ≈ 0.7071067811865475
 
-export const WORLD_WIDTH = 960;
-export const WORLD_HEIGHT = 740;
-export const WORLD_CENTER_X = WORLD_WIDTH / 2; // 480
-export const WORLD_CENTER_Y = WORLD_HEIGHT / 2; // 370
+export const WORLD_SCALE = 1.2;
+export const WORLD_WIDTH = Math.round(960 * WORLD_SCALE); // 1152
+export const WORLD_HEIGHT = Math.round(740 * WORLD_SCALE); // 888
+export const WORLD_CENTER_X = WORLD_WIDTH / 2; // 576
+export const WORLD_CENTER_Y = WORLD_HEIGHT / 2; // 444
 
 export interface Point2D {
   x: number;
