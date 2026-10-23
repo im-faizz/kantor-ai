@@ -179,7 +179,7 @@ const RAW_AGENT_DEFS: AgentDef[] = [
     cp: 0,
     bun: 0,
     skills: ['Strategi', 'Sosmed', 'Iklan'],
-    home: [628, 384],
+    home: [648, 384],
     homeRoom: 'Ruang Santai',
     desk: [78, 238],
     deskRoom: 'Kantor Utama',
@@ -273,10 +273,10 @@ const RAW_ACTIVITY_SPOTS: Record<string, [number, number][]> = {
     [880, 360]
   ],
   bil: [
-    [628, 384],
-    [500, 318],
-    [500, 456],
-    [430, 456]
+    [648, 384],
+    [520, 318],
+    [520, 456],
+    [450, 456]
   ],
   pantry: [
     [690, 590],

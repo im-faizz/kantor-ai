@@ -1,6 +1,7 @@
 import { Container, Sprite, Texture, Text, TextStyle, Graphics } from 'pixi.js';
 import { AgentDef, ActivityType } from '../data/agents';
-import { worldToScreen, getDepth, Point2D } from '../world/iso';
+import { worldToScreen, getDepth, Point2D, WORLD_SCALE } from '../world/iso';
+import { DOORS } from '../world/map-data';
 
 export interface AgentTextures {
   head: Texture;
@@ -511,6 +512,18 @@ export class AgentSpriteView {
       // Billiard cue stick extends forward onto the table surface; ensure player and cue render on top of the table edge
       depth += 80;
     }
+
+    // Doorway threshold priority: characters passing through any door opening are given a depth priority
+    // so doorframe wall segments never render on top of the character's shoulders or body.
+    for (const door of DOORS) {
+      const distToDoor = Math.hypot(worldX - door[2], worldY - door[3]);
+      if (distToDoor < 45 * WORLD_SCALE) {
+        const factor = 1 - distToDoor / (45 * WORLD_SCALE);
+        depth += factor * 60;
+        break;
+      }
+    }
+
     this.container.zIndex = depth;
   }
 

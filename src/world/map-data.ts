@@ -49,34 +49,34 @@ const RAW_WALLS: Box3D[] = [
   { x: 600, y: 737, w: 180, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Pantry
   { x: 780, y: 737, w: 183, d: 6, h: 12, color: '#cbbfa5' }, // South wall: Ruang Server
 
-  // Inner walls at y=280
-  { x: 0, y: 277, w: 150, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 190, y: 277, w: 300, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 550, y: 277, w: 230, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 840, y: 277, w: 120, d: 6, h: 26, color: '#d9cdb4' },
+  // Inner walls at y=280 (Door K-W at 170 [130..210], Door M-S at 520 [480..560], Door G-S at 810 [770..850])
+  { x: 0, y: 277, w: 130, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 210, y: 277, w: 270, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 560, y: 277, w: 210, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 850, y: 277, w: 110, d: 6, h: 16, color: '#d9cdb4' },
 
-  // Inner walls at y=480
-  { x: 0, y: 477, w: 150, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 200, y: 477, w: 280, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 540, y: 477, w: 140, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 720, y: 477, w: 120, d: 6, h: 26, color: '#d9cdb4' },
-  { x: 880, y: 477, w: 80, d: 6, h: 26, color: '#d9cdb4' },
+  // Inner walls at y=480 (Door W-P at 175 [135..215], Door S-P at 510 [470..550], Door S-T at 700 [660..740], Door S-V at 860 [820..900])
+  { x: 0, y: 477, w: 135, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 215, y: 477, w: 255, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 550, y: 477, w: 110, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 740, y: 477, w: 80, d: 6, h: 16, color: '#d9cdb4' },
+  { x: 900, y: 477, w: 60, d: 6, h: 16, color: '#d9cdb4' },
 
-  // Inner walls at x=380
-  { x: 377, y: 0, w: 6, d: 120, h: 26, color: '#d9cdb4' },
-  { x: 377, y: 170, w: 6, d: 110, h: 26, color: '#d9cdb4' },
-  { x: 377, y: 280, w: 6, d: 80, h: 26, color: '#d9cdb4' },
-  { x: 377, y: 410, w: 6, d: 70, h: 26, color: '#d9cdb4' },
+  // Inner walls at x=380 (Door K-M at 145 [105..185], Door W-S at 385 [345..425])
+  { x: 377, y: 0, w: 6, d: 105, h: 16, color: '#d9cdb4' },
+  { x: 377, y: 185, w: 6, d: 95, h: 16, color: '#d9cdb4' },
+  { x: 377, y: 280, w: 6, d: 65, h: 16, color: '#d9cdb4' },
+  { x: 377, y: 425, w: 6, d: 55, h: 16, color: '#d9cdb4' },
 
-  // Inner walls at x=660
-  { x: 657, y: 0, w: 6, d: 120, h: 26, color: '#d9cdb4' },
-  { x: 657, y: 170, w: 6, d: 110, h: 26, color: '#d9cdb4' },
+  // Inner walls at x=660 (Door M-G at 145 [105..185])
+  { x: 657, y: 0, w: 6, d: 105, h: 16, color: '#d9cdb4' },
+  { x: 657, y: 185, w: 6, d: 95, h: 16, color: '#d9cdb4' },
 
-  // Inner walls at bottom (x=600 and x=780)
-  { x: 597, y: 480, w: 6, d: 100, h: 26, color: '#d9cdb4' },
-  { x: 597, y: 630, w: 6, d: 110, h: 26, color: '#d9cdb4' },
-  { x: 777, y: 480, w: 6, d: 100, h: 26, color: '#d9cdb4' },
-  { x: 777, y: 630, w: 6, d: 110, h: 26, color: '#d9cdb4' }
+  // Inner walls at bottom (Door P-T at 605 [565..645], Door T-V at 605 [565..645])
+  { x: 597, y: 480, w: 6, d: 85, h: 16, color: '#d9cdb4' },
+  { x: 597, y: 645, w: 6, d: 95, h: 16, color: '#d9cdb4' },
+  { x: 777, y: 480, w: 6, d: 85, h: 16, color: '#d9cdb4' },
+  { x: 777, y: 645, w: 6, d: 95, h: 16, color: '#d9cdb4' }
 ];
 
 const RAW_FURNITURE: Box3D[] = [
@@ -164,16 +164,16 @@ const RAW_FURNITURE: Box3D[] = [
   { x: 225, y: 374, w: 20, d: 20, h: 10, color: '#5b6b84' },
   { x: 313, y: 374, w: 20, d: 20, h: 10, color: '#5b6b84' },
 
-  // Ruang Kerja: credenzas / filing cabinets (placed against back wall with 76px wide clear aisle x=140..216 leading to pool door W-P)
-  { x: 24, y: 454, w: 116, d: 18, h: 20, color: '#a9824f' },
+  // Ruang Kerja: credenzas / filing cabinets (placed against back wall with 81px wide clear aisle x=135..216 leading to pool door W-P)
+  { x: 24, y: 454, w: 110, d: 18, h: 20, color: '#a9824f' },
   { x: 216, y: 454, w: 140, d: 18, h: 20, color: '#a9824f' },
 
-  // Ruang Santai: billiard table
-  { x: 408, y: 332, w: 190, d: 104, h: 22, color: '#15803d' },
-  { x: 408, y: 332, w: 190, d: 8, h: 6, z: 22, color: '#6b3f1d' },
-  { x: 408, y: 428, w: 190, d: 8, h: 6, z: 22, color: '#6b3f1d' },
-  { x: 408, y: 332, w: 8, d: 104, h: 6, z: 22, color: '#6b3f1d' },
-  { x: 590, y: 332, w: 8, d: 104, h: 6, z: 22, color: '#6b3f1d' },
+  // Ruang Santai: billiard table (shifted to x=428, providing generous 45px aisle from west wall and 62px aisle to lounge)
+  { x: 428, y: 332, w: 190, d: 104, h: 22, color: '#15803d' },
+  { x: 428, y: 332, w: 190, d: 8, h: 6, z: 22, color: '#6b3f1d' },
+  { x: 428, y: 428, w: 190, d: 8, h: 6, z: 22, color: '#6b3f1d' },
+  { x: 428, y: 332, w: 8, d: 104, h: 6, z: 22, color: '#6b3f1d' },
+  { x: 610, y: 332, w: 8, d: 104, h: 6, z: 22, color: '#6b3f1d' },
 
   // Ruang Santai: sofas
   { x: 680, y: 316, w: 150, d: 8, h: 38, color: '#7c6bb0' },
@@ -210,12 +210,12 @@ const RAW_FURNITURE: Box3D[] = [
   { x: 632, y: 672, w: 20, d: 20, h: 10, color: '#475569' },
   { x: 728, y: 672, w: 20, d: 20, h: 10, color: '#475569' },
 
-  // Ruang Server: 3 racks
-  { x: 796, y: 560, w: 40, d: 56, h: 72, color: '#0f172a', isRack: true },
-  { x: 846, y: 560, w: 40, d: 56, h: 72, color: '#0f172a', isRack: true },
-  { x: 896, y: 560, w: 40, d: 56, h: 72, color: '#0f172a', isRack: true },
+  // Ruang Server: 3 racks (shifted to x=830, 872, 914, providing 50px clear hallway from door T-V)
+  { x: 830, y: 550, w: 36, d: 56, h: 72, color: '#0f172a', isRack: true },
+  { x: 872, y: 550, w: 36, d: 56, h: 72, color: '#0f172a', isRack: true },
+  { x: 914, y: 550, w: 36, d: 56, h: 72, color: '#0f172a', isRack: true },
   // Server room terminal desk
-  { x: 800, y: 660, w: 132, d: 40, h: 4, color: '#38bdf8' }
+  { x: 825, y: 655, w: 120, d: 40, h: 4, color: '#38bdf8' }
 ];
 
 const RAW_ROOM_LABELS: { name: string; x: number; y: number }[] = [
