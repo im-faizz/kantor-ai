@@ -151,9 +151,8 @@ async function bootstrap() {
   );
 }
 
-// Start application when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', bootstrap);
-} else {
+if (document.getElementById('canvas-container')) {
   bootstrap();
+} else {
+  document.addEventListener('DOMContentLoaded', bootstrap);
 }

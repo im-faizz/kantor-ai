@@ -27,11 +27,19 @@ export const DOORS: DoorDef[] = [
 ];
 
 export const WALLS: Box3D[] = [
-  // Outer walls (North & East high 46px, South & West low 12px)
-  { x: -3, y: -3, w: 966, d: 6, h: 46, color: '#efe6d2' },
-  { x: 957, y: -3, w: 6, d: 746, h: 46, color: '#efe6d2' },
-  { x: -3, y: -3, w: 6, d: 746, h: 12, color: '#cbbfa5' },
-  { x: -3, y: 737, w: 966, d: 6, h: 12, color: '#cbbfa5' },
+  // Outer North walls (segmented by room so each room's wall is properly behind that room's furniture)
+  { x: -3, y: -3, w: 383, d: 6, h: 46, color: '#efe6d2' }, // Kantor Utama North
+  { x: 380, y: -3, w: 280, d: 6, h: 46, color: '#efe6d2' }, // Ruang Meeting North
+  { x: 660, y: -3, w: 300, d: 6, h: 46, color: '#efe6d2' }, // Ruang Manager North
+
+  // Outer East walls (segmented by room)
+  { x: 957, y: 0, w: 6, d: 280, h: 46, color: '#efe6d2' }, // Ruang Manager East
+  { x: 957, y: 280, w: 6, d: 200, h: 46, color: '#efe6d2' }, // Ruang Santai East
+  { x: 957, y: 480, w: 6, d: 260, h: 46, color: '#efe6d2' }, // Ruang Server East
+
+  // Outer Front walls (low walls 12px height at front boundaries)
+  { x: -3, y: -3, w: 6, d: 746, h: 12, color: '#cbbfa5' }, // West front wall
+  { x: -3, y: 737, w: 966, d: 6, h: 12, color: '#cbbfa5' }, // South front wall
 
   // Inner walls at y=280
   { x: 0, y: 277, w: 150, d: 6, h: 26, color: '#d9cdb4' },

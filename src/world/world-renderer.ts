@@ -1,11 +1,12 @@
-import { Container, Graphics, Text, TextStyle, FillGradient } from 'pixi.js';
+import { Container, Graphics, Text, TextStyle } from 'pixi.js';
 import { ROOMS, WALLS, FURNITURE, ROOM_LABELS } from './map-data';
-import { worldToScreen, getDepth, darkenColor, parseHexColor, Point2D, COS_55 } from './iso';
+import { worldToScreen, getDepth, darkenColor, parseHexColor, COS_55 } from './iso';
 import { Box3D } from './types';
 
 export class WorldRenderer {
   public rootContainer: Container;
   public floorContainer: Container;
+  public backWallsContainer: Container;
   public objectsContainer: Container;
   public labelsContainer: Container;
 
@@ -16,12 +17,15 @@ export class WorldRenderer {
   constructor() {
     this.rootContainer = new Container();
     this.floorContainer = new Container();
+    this.backWallsContainer = new Container();
     this.objectsContainer = new Container();
     this.labelsContainer = new Container();
 
     this.objectsContainer.sortableChildren = true;
 
+    // Render layers: floors -> back walls -> dynamic sorted objects (furniture + inner walls + agents) -> labels
     this.rootContainer.addChild(this.floorContainer);
+    this.rootContainer.addChild(this.backWallsContainer);
     this.rootContainer.addChild(this.objectsContainer);
     this.rootContainer.addChild(this.labelsContainer);
 
@@ -97,19 +101,41 @@ export class WorldRenderer {
   }
 
   private buildWallsAndFurniture() {
-    const allBoxes = [...WALLS, ...FURNITURE];
+    // 1. Back outer walls (North and East boundary walls):
+    // They form the rear backdrop of the entire office and are placed in backWallsContainer
+    // so they never incorrectly overlap ("nimpa") interior rooms, furniture, or characters.
+    for (const wall of WALLS) {
+      const isNorthBackWall = wall.y <= 0 && wall.h === 46;
+      const isEastBackWall = wall.x >= 950 && wall.h === 46;
 
-    for (const box of allBoxes) {
-      const g = this.createBoxGraphic(box);
-      // Sort key: depth of front-most point of box base
-      const depth = getDepth(box.x, box.y + box.d, box.z || 0);
+      if (isNorthBackWall || isEastBackWall) {
+        const g = this.createBoxGraphic(wall);
+        this.backWallsContainer.addChild(g);
+      } else {
+        // Front walls and inner partition walls go to objectsContainer to properly occlude
+        const g = this.createBoxGraphic(wall);
+        const depth = getDepth(wall.x + wall.w / 2, wall.y + wall.d, wall.z || 0);
+        g.zIndex = depth;
+        this.objectsContainer.addChild(g);
+      }
+    }
+
+    // 2. Furniture items (placed in objectsContainer with accurate center-front depth)
+    for (const item of FURNITURE) {
+      const g = this.createBoxGraphic(item);
+      // For chairs, use center depth so seated agents render naturally
+      const isChair = item.w === 20 && item.d === 20 && item.h === 10;
+      const depthY = isChair ? item.y + item.d / 2 : item.y + item.d;
+      const depth = getDepth(item.x + item.w / 2, depthY, item.z || 0);
       g.zIndex = depth;
       this.objectsContainer.addChild(g);
 
-      if (box.isRack) {
+      if (item.isRack) {
         this.serverLeds.push(g);
       }
     }
+
+    this.sortObjects();
   }
 
   private createBoxGraphic(box: Box3D): Graphics {
@@ -233,10 +259,17 @@ export class WorldRenderer {
     }
   }
 
+  public sortObjects() {
+    this.objectsContainer.sortChildren();
+  }
+
   public update(deltaTime: number) {
     this.animTimer += deltaTime;
 
     // Update pool water
     this.drawPoolWater(this.animTimer);
+
+    // Re-sort dynamic objects every frame so walking agents smoothly pass behind and in front of furniture
+    this.sortObjects();
   }
 }
